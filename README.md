@@ -78,7 +78,7 @@ Custom mailers can be created by extending `\Fyre\Mail\Mailer`, ensuring all bel
 
 **Email**
 
-Create a *Email*.
+Create an *Email*.
 
 ```php
 $email = $mailer->email();
@@ -86,7 +86,7 @@ $email = $mailer->email();
 
 **Get Charset**
 
-Get the mailer charset.
+Get the mailer character set.
 
 ```php
 $charset = $mailer->getCharset();
