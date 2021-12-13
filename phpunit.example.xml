@@ -1,0 +1,12 @@
+<phpunit>
+    <php>
+        <env name="MAIL_TO" value="" force="true" />
+        <env name="MAIL_FROM" value="" force="true" />
+        <env name="SMTP_HOST" value="127.0.0.1" force="true" />
+        <env name="SMTP_PORT" value="465" force="true" />
+        <env name="SMTP_USERNAME" value="" force="true" />
+        <env name="SMTP_PASSWORD" value="" force="true" />
+        <env name="SMTP_AUTH" value="0" force="true" />
+        <env name="SMTP_TLS" value="0" force="true" />
+    </php>
+</phpunit>

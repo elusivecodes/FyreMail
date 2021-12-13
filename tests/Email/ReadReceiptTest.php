@@ -1,0 +1,95 @@
+<?php
+declare(strict_types=1);
+
+namespace Tests\Email;
+
+trait ReadReceiptTest
+{
+
+    public function testSetReadReceipt(): void
+    {
+        $this->assertEquals(
+            $this->email,
+            $this->email->setReadReceipt('test1@test.com')
+        );
+
+        $this->assertEquals(
+            [
+                'test1@test.com' => 'test1@test.com'
+            ],
+            $this->email->getReadReceipt()
+        );
+    }
+
+    public function testSetReadReceiptName(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Test 1');
+
+        $this->assertEquals(
+            [
+                'test1@test.com' => 'Test 1'
+            ],
+            $this->email->getReadReceipt()
+        );
+    }
+
+    public function testSetReadReceiptInvalid(): void
+    {
+        $this->email->setReadReceipt('test1');
+
+        $this->assertEquals(
+            [],
+            $this->email->getReadReceipt()
+        );
+    }
+
+    public function testHeaderReadReceipt(): void
+    {
+        $this->email->setReadReceipt('test1@test.com');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertEquals(
+            'test1@test.com',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+    public function testHeaderReadReceiptName(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Test');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertEquals(
+            'test1@test.com <Test>',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+    public function testHeaderReadReceiptEncoding(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertEquals(
+            'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+    public function testHeaderReadReceiptCharset(): void
+    {
+        $this->email->setCharset('iso-8859-1');
+        $this->email->setReadReceipt('test1@test.com', 'Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertEquals(
+            'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+}
