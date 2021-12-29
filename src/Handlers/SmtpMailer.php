@@ -15,12 +15,16 @@ use function
     array_key_first,
     base64_encode,
     fclose,
+    fgets,
     fwrite,
     preg_replace,
+    str_starts_with,
     stream_context_create,
+    stream_set_timeout,
     stream_socket_client,
     stream_socket_enable_crypto,
-    strlen;
+    strlen,
+    substr;
 
 /**
  * SmtpMailer
@@ -102,11 +106,11 @@ class SmtpMailer extends Mailer
 
         $reply = $this->getData();
 
-        if (strpos($reply, '503') === 0) {
+        if (str_starts_with($reply, '503')) {
             return;
         }
 
-        if (strpos($reply, '334') !== 0) {
+        if (!str_starts_with($reply, '334')) {
             throw SmtpException::forAuthFailed();
         }
 
@@ -114,7 +118,7 @@ class SmtpMailer extends Mailer
         $this->sendData($username);
 
         $reply = $this->getData();
-        if (strpos($reply, '334') !== 0) {
+        if (!str_starts_with($reply, '334')) {
             throw SmtpException::forAuthFailed();
         }
 
@@ -122,7 +126,7 @@ class SmtpMailer extends Mailer
         $this->sendData($password);
 
         $reply = $this->getData();
-        if (strpos($reply, '235') !== 0) {
+        if (!str_starts_with($reply, '235')) {
             throw SmtpException::forAuthFailed();
         }
     }
@@ -213,38 +217,38 @@ class SmtpMailer extends Mailer
                 }
 
                 $message .= ' '.$this->getClient();
-                $response = 250;
+                $response = '250';
                 break;
             case 'starttls':
                 $message = 'STARTTLS';
-                $response = 220;
+                $response = '220';
                 break;
             case 'from':
                 $message = 'MAIL FROM:<'.$data.'>';
-                $response = 250;
+                $response = '250';
                 break;
             case 'to':
                 $message = 'RCPT TO:<'.$data.'>';
                 if ($this->config['dsn']) {
                     $message .= ' NOTIFY=SUCCESS,DELAY,FAILURE ORCPT=rfc822;'.$data;
                 }
-                $response = 250;
+                $response = '250';
                 break;
             case 'data':
                 $message = 'DATA';
-                $response = 354;
+                $response = '354';
                 break;
             case 'dot':
                 $message = '.';
-                $response = 250;
+                $response = '250';
                 break;
             case 'reset':
                 $message = 'RSET';
-                $response = 250;
+                $response = '250';
                 break;
             case 'quit':
                 $message = 'QUIT';
-                $response = 221;
+                $response = '221';
                 break;
         }
 
@@ -252,7 +256,7 @@ class SmtpMailer extends Mailer
 
         $reply = $this->getData();
 
-        if (strpos($reply, (string) $response) !== 0) {
+        if (!str_starts_with($reply, $response)) {
             throw SmtpException::forInvalidResponse();
         }
 
