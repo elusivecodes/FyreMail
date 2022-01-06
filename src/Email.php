@@ -92,7 +92,7 @@ class Email
      * @param array $attachments The attachments.
      * @return Email The email.
      */
-    public function addAttachments(array $attachments): self
+    public function addAttachments(array $attachments): static
     {
         foreach ($attachments AS $filename => $attachment) {
             $this->attachments[$filename] = $attachment;
@@ -107,7 +107,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function addBcc(string $email, string|null $name = null): self
+    public function addBcc(string $email, string|null $name = null): static
     {
         $email = static::validateEmail($email);
 
@@ -124,7 +124,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function addCc(string $email, string|null $name = null): self
+    public function addCc(string $email, string|null $name = null): static
     {
         $email = static::validateEmail($email);
 
@@ -141,7 +141,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function addReplyTo(string $email, string|null $name = null): self
+    public function addReplyTo(string $email, string|null $name = null): static
     {
         $email = static::validateEmail($email);
 
@@ -158,7 +158,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function addTo(string $email, string|null $name = null): self
+    public function addTo(string $email, string|null $name = null): static
     {
         $email = static::validateEmail($email);
 
@@ -542,7 +542,7 @@ class Email
      * @param array $attachments The attachments.
      * @return Email The email.
      */
-    public function setAttachments(array $attachments): self
+    public function setAttachments(array $attachments): static
     {
         $this->attachments = $attachments;
 
@@ -554,7 +554,7 @@ class Email
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setBcc(string|array $emails): self
+    public function setBcc(string|array $emails): static
     {
         $this->bcc = static::parseEmails($emails);
 
@@ -566,7 +566,7 @@ class Email
      * @param array $body The body text and/or HTML.
      * @return Email The Email.
      */
-    public function setBody(array $body): self
+    public function setBody(array $body): static
     {
         foreach ($body AS $type => $content) {
             $this->body[$type] = $content;
@@ -580,7 +580,7 @@ class Email
      * @param string $content The content.
      * @return Email The Email.
      */
-    public function setBodyHtml(string $content): self
+    public function setBodyHtml(string $content): static
     {
         return $this->setBody([static::HTML => $content]);
     }
@@ -590,7 +590,7 @@ class Email
      * @param string $content The content.
      * @return Email The Email.
      */
-    public function setBodyText(string $content): self
+    public function setBodyText(string $content): static
     {
         return $this->setBody([static::TEXT => $content]);
     }
@@ -600,7 +600,7 @@ class Email
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setCc(string|array $emails): self
+    public function setCc(string|array $emails): static
     {
         $this->cc = static::parseEmails($emails);
 
@@ -612,7 +612,7 @@ class Email
      * @param string $charset The charset.
      * @return Email The Email.
      */
-    public function setCharset(string $charset): self
+    public function setCharset(string $charset): static
     {
         $this->charset = $charset;
 
@@ -624,7 +624,7 @@ class Email
      * @param string $format The email format.
      * @return Email The Email.
      */
-    public function setFormat(string $format): self
+    public function setFormat(string $format): static
     {
         if (!in_array($format, [static::TEXT, static::HTML, static::BOTH])) {
             throw MailException::forInvalidFormat($format);
@@ -641,7 +641,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function setFrom(string $email, string|null $name = null): self
+    public function setFrom(string $email, string|null $name = null): static
     {
         $this->from = static::parseEmails([$email => $name]);
 
@@ -653,7 +653,7 @@ class Email
      * @param array $headers The headers.
      * @return Email The Email.
      */
-    public function setHeaders(array $headers): self
+    public function setHeaders(array $headers): static
     {
         $this->headers = $headers;
 
@@ -665,7 +665,7 @@ class Email
      * @param int|null $priority The priority.
      * @return Email The Email.
      */
-    public function setPriority(int|null $priority = null): self
+    public function setPriority(int|null $priority = null): static
     {
         $this->priority = $priority;
 
@@ -678,7 +678,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function setReadReceipt(string $email, string|null $name = null): self
+    public function setReadReceipt(string $email, string|null $name = null): static
     {
         $this->readReceipt = static::parseEmails([$email => $name]);
 
@@ -690,7 +690,7 @@ class Email
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setReplyTo(string|array $emails): self
+    public function setReplyTo(string|array $emails): static
     {
         $this->replyTo = static::parseEmails($emails);
 
@@ -703,7 +703,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function setReturnPath(string $email, string|null $name = null): self
+    public function setReturnPath(string $email, string|null $name = null): static
     {
         $this->returnPath = static::parseEmails([$email => $name]);
 
@@ -716,7 +716,7 @@ class Email
      * @param string|null $name The name.
      * @return Email The Email.
      */
-    public function setSender(string $email, string|null $name = null): self
+    public function setSender(string $email, string|null $name = null): static
     {
         $this->sender = static::parseEmails([$email => $name]);
 
@@ -728,7 +728,7 @@ class Email
      * @param string $subject The subject.
      * @return Email The Email.
      */
-    public function setSubject(string $subject): self
+    public function setSubject(string $subject): static
     {
         $this->subject = $subject;
 
@@ -740,7 +740,7 @@ class Email
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setTo(string|array $emails): self
+    public function setTo(string|array $emails): static
     {
         $this->to = static::parseEmails($emails);
 
