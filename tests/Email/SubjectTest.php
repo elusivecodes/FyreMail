@@ -8,12 +8,12 @@ trait SubjectTest
 
     public function testSetSubject(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setSubject('Test')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'Test',
             $this->email->getSubject()
         );
@@ -25,7 +25,7 @@ trait SubjectTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'Test',
             $headers['Subject']
         );
@@ -37,7 +37,7 @@ trait SubjectTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=',
             $headers['Subject']
         );
@@ -50,7 +50,7 @@ trait SubjectTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             '=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=',
             $headers['Subject']
         );

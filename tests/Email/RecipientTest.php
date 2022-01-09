@@ -8,11 +8,11 @@ trait RecipientTest
 
     public function testRecipients(): void
     {
-        $this->email->setBcc('test1@test.com');
+        $this->email->setTo('test1@test.com');
         $this->email->setCc('test2@test.com');
-        $this->email->setTo('test3@test.com');
+        $this->email->setBcc('test3@test.com');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com',

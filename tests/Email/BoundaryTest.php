@@ -19,7 +19,7 @@ trait BoundaryTest
 
     public function testGetBoundaryPersists(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email->getBoundary(),
             $this->email->getBoundary()
         );

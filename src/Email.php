@@ -481,7 +481,7 @@ class Email
         $cc = $this->getCc();
         $bcc = $this->getBcc();
 
-        return array_merge($to, $bcc, $cc);
+        return array_merge($to, $cc, $bcc);
     }
 
     /**

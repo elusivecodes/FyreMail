@@ -15,7 +15,7 @@ trait HeaderTest
 
     public function testSetHeaders(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setHeaders([
                 'Test1' => 'A'
@@ -24,7 +24,7 @@ trait HeaderTest
 
         $headers = $this->email->getHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'A',
             $headers['Test1']
         );
@@ -39,14 +39,14 @@ trait HeaderTest
 
         $headers = $this->email->getHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'A',
             $headers['Test1']
         );
 
         $headers = $this->email->getHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'B',
             $headers['Test2']
         );
@@ -54,7 +54,7 @@ trait HeaderTest
 
     public function testHeaderHeaders(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setHeaders([
                 'Test1' => 'A'
@@ -63,7 +63,7 @@ trait HeaderTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'A',
             $headers['Test1']
         );
@@ -93,7 +93,7 @@ trait HeaderTest
     {
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             '1.0',
             $headers['MIME-Version']
         );
@@ -103,7 +103,7 @@ trait HeaderTest
     {
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'text/plain; charset=utf-8',
             $headers['Content-Type']
         );
@@ -115,7 +115,7 @@ trait HeaderTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'text/html; charset=utf-8',
             $headers['Content-Type']
         );
@@ -128,7 +128,7 @@ trait HeaderTest
         $headers = $this->email->getFullHeaders();
         $boundary = $this->email->getBoundary();
 
-        $this->assertEquals(
+        $this->assertSame(
             'multipart/alternative; boundary="'.$boundary.'"',
             $headers['Content-Type']
         );
@@ -145,7 +145,7 @@ trait HeaderTest
         $headers = $this->email->getFullHeaders();
         $boundary = $this->email->getBoundary();
 
-        $this->assertEquals(
+        $this->assertSame(
             'multipart/mixed; boundary="'.$boundary.'"',
             $headers['Content-Type']
         );
@@ -157,7 +157,7 @@ trait HeaderTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'text/plain; charset=iso-8859-1',
             $headers['Content-Type']
         );
@@ -170,7 +170,7 @@ trait HeaderTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'text/html; charset=iso-8859-1',
             $headers['Content-Type']
         );
@@ -180,7 +180,7 @@ trait HeaderTest
     {
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'base64',
             $headers['Content-Transfer-Encoding']
         );

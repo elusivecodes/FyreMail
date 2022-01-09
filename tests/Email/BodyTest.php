@@ -11,7 +11,7 @@ trait BodyTest
 
     public function testSetBody(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setBody([
                 Email::TEXT => 'Test',
@@ -19,12 +19,12 @@ trait BodyTest
             ])
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'Test',
             $this->email->getBodyText()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '<b>Test</b>',
             $this->email->getBodyHtml()
         );
@@ -32,12 +32,12 @@ trait BodyTest
 
     public function testSetBodyText(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setBodyText('Test')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'Test',
             $this->email->getBodyText()
         );
@@ -45,12 +45,12 @@ trait BodyTest
 
     public function testSetBodyHtml(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setBodyHtml('<b>Test</b>')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '<b>Test</b>',
             $this->email->getBodyHtml()
         );

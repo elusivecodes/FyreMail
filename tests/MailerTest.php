@@ -25,7 +25,7 @@ final class MailerTest extends TestCase
 
     public function testGetCharset(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'iso-8559-1',
             Mail::load([
                 'charset' => 'iso-8559-1',
@@ -36,7 +36,7 @@ final class MailerTest extends TestCase
 
     public function testGetClient(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'test',
             Mail::load([
                 'client' => 'test',
@@ -47,7 +47,7 @@ final class MailerTest extends TestCase
 
     public function testGetAppCharset(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'utf-8',
             Mailer::getAppCharset()
         );

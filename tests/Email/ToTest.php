@@ -10,12 +10,12 @@ trait ToTest
     {
         $this->email->setTo('test1@test.com');
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->addTo('test2@test.com')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com'
@@ -29,7 +29,7 @@ trait ToTest
         $this->email->setTo('test1@test.com');
         $this->email->addTo('test2@test.com', 'Test 2');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'Test 2'
@@ -43,7 +43,7 @@ trait ToTest
         $this->email->setTo('test1@test.com');
         $this->email->addTo('test2');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
@@ -53,12 +53,12 @@ trait ToTest
 
     public function testSetTo(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setTo('test1@test.com')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
@@ -72,7 +72,7 @@ trait ToTest
             'test1@test.com' => 'Test 1'
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'Test 1'
             ],
@@ -87,7 +87,7 @@ trait ToTest
             'test2@test.com' => 'Test 2'
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'Test 1',
                 'test2@test.com' => 'Test 2'
@@ -100,7 +100,7 @@ trait ToTest
     {
         $this->email->setTo('test1');
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $this->email->getTo()
         );
@@ -112,7 +112,7 @@ trait ToTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com',
             $headers['To']
         );
@@ -126,7 +126,7 @@ trait ToTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <Test>',
             $headers['To']
         );
@@ -141,7 +141,7 @@ trait ToTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <Test 1>, test2@test.com <Test 2>',
             $headers['To']
         );
@@ -155,7 +155,7 @@ trait ToTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
             $headers['To']
         );
@@ -170,7 +170,7 @@ trait ToTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
             $headers['To']
         );

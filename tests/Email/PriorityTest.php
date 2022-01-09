@@ -8,12 +8,12 @@ trait PriorityTest
 
     public function testSetPriority(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setPriority(1)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->email->getPriority()
         );
@@ -23,8 +23,7 @@ trait PriorityTest
     {
         $this->email->setPriority(null);
 
-        $this->assertEquals(
-            null,
+        $this->assertNull(
             $this->email->getPriority()
         );
     }
@@ -35,8 +34,8 @@ trait PriorityTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
-            '1',
+        $this->assertSame(
+            1,
             $headers['X-Priority']
         );
     }

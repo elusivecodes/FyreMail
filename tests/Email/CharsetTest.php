@@ -8,7 +8,7 @@ trait CharsetTest
 
     public function testDefaultCharset(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'utf-8',
             $this->email->getCharset()
         );
@@ -16,12 +16,12 @@ trait CharsetTest
 
     public function testSetCharset(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setCharset('iso-8859-1')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'iso-8859-1',
             $this->email->getCharset()
         );

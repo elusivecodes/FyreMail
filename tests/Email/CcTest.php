@@ -10,12 +10,12 @@ trait CcTest
     {
         $this->email->setCc('test1@test.com');
 
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->addCc('test2@test.com')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com'
@@ -29,7 +29,7 @@ trait CcTest
         $this->email->setCc('test1@test.com');
         $this->email->addCc('test2@test.com', 'Test 2');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'Test 2'
@@ -43,7 +43,7 @@ trait CcTest
         $this->email->setCc('test1@test.com');
         $this->email->addCc('test2');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
@@ -53,12 +53,12 @@ trait CcTest
 
     public function testSetCc(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setCc('test1@test.com')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
@@ -72,7 +72,7 @@ trait CcTest
             'test1@test.com' => 'Test 1'
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'Test 1'
             ],
@@ -87,7 +87,7 @@ trait CcTest
             'test2@test.com' => 'Test 2'
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'Test 1',
                 'test2@test.com' => 'Test 2'
@@ -100,7 +100,7 @@ trait CcTest
     {
         $this->email->setCc('test1');
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $this->email->getCc()
         );
@@ -112,7 +112,7 @@ trait CcTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com',
             $headers['Cc']
         );
@@ -126,7 +126,7 @@ trait CcTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <Test>',
             $headers['Cc']
         );
@@ -141,7 +141,7 @@ trait CcTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <Test 1>, test2@test.com <Test 2>',
             $headers['Cc']
         );
@@ -155,7 +155,7 @@ trait CcTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
             $headers['Cc']
         );
@@ -170,7 +170,7 @@ trait CcTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
             $headers['Cc']
         );

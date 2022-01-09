@@ -8,12 +8,12 @@ trait FromTest
 
     public function testSetFrom(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setFrom('test1@test.com')
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
@@ -25,7 +25,7 @@ trait FromTest
     {
         $this->email->setFrom('test1@test.com', 'Test 1');
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1@test.com' => 'Test 1'
             ],
@@ -37,7 +37,7 @@ trait FromTest
     {
         $this->email->setFrom('test1');
 
-        $this->assertEquals(
+        $this->assertSame(
             [],
             $this->email->getFrom()
         );
@@ -49,7 +49,7 @@ trait FromTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com',
             $headers['From']
         );
@@ -61,7 +61,7 @@ trait FromTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <Test>',
             $headers['From']
         );
@@ -73,7 +73,7 @@ trait FromTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
             $headers['From']
         );
@@ -86,7 +86,7 @@ trait FromTest
 
         $headers = $this->email->getFullHeaders();
 
-        $this->assertEquals(
+        $this->assertSame(
             'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
             $headers['From']
         );

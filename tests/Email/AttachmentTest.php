@@ -20,7 +20,7 @@ trait AttachmentTest
             ]
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test1.jpg' => [
                     'file' => 'test1.jpg'
@@ -41,7 +41,7 @@ trait AttachmentTest
             ]
         ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'test.jpg' => [
                     'file' => 'test.jpg'

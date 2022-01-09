@@ -12,7 +12,7 @@ trait FormatTest
 
     public function testDefaultFormat(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             Email::TEXT,
             $this->email->getFormat()
         );
@@ -20,12 +20,12 @@ trait FormatTest
 
     public function testSetFormat(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             $this->email,
             $this->email->setFormat(Email::TEXT)
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Email::TEXT,
             $this->email->getFormat()
         );
@@ -35,7 +35,7 @@ trait FormatTest
     {
         $this->email->setFormat(Email::HTML);
 
-        $this->assertEquals(
+        $this->assertSame(
             Email::HTML,
             $this->email->getFormat()
         );
@@ -45,7 +45,7 @@ trait FormatTest
     {
         $this->email->setFormat(Email::BOTH);
 
-        $this->assertEquals(
+        $this->assertSame(
             Email::BOTH,
             $this->email->getFormat()
         );
