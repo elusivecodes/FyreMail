@@ -8,6 +8,7 @@ use
 
 use function
     array_key_exists,
+    array_search,
     class_exists;
 
 /**
@@ -26,6 +27,16 @@ abstract class Mail
     public static function clear(): void
     {
         static::$instances = [];
+    }
+
+    /**
+     * Get the key for a mailer instance.
+     * @param Mailer $mailer The Mailer.
+     * @return string|null The mailer key.
+     */
+    public static function getKey(Mailer $mailer): string|null
+    {
+        return array_search($mailer, $this->instances, true) ?: null;
     }
 
     /**

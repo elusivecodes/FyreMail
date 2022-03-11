@@ -15,6 +15,28 @@ final class MailTest extends TestCase
     use
         SendmailTrait;
 
+    public function getKey(): void
+    {
+        $handler = Mail::use();
+
+        $this->assertSame(
+            'default',
+            Mail::getKey($handler)
+        );
+    }
+
+    public function getKeyInvalid(): void
+    {
+        $handler = Mail::load([
+            'className' => SendmailMailer::class
+        ]);
+
+        $this->assertSame(
+            null,
+            Mail::getKey($handler)
+        );
+    }
+    
     public function testLoadInvalidHandler(): void
     {
         $this->expectException(MailException::class);

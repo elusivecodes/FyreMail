@@ -38,6 +38,16 @@ Clear instances.
 Mail::clear();
 ```
 
+**Get Key**
+
+Get the key for a mailer instance.
+
+- `$mailer` is a *Mailer*.
+
+```php
+$key = Mail::getKey($mailer);
+```
+
 **Load**
 
 Load a mailer.
