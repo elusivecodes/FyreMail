@@ -36,7 +36,7 @@ abstract class Mail
      */
     public static function getKey(Mailer $mailer): string|null
     {
-        return array_search($mailer, $this->instances, true) ?: null;
+        return array_search($mailer, static::$instances, true) ?: null;
     }
 
     /**
