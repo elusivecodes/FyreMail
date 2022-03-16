@@ -807,7 +807,7 @@ class Email
     protected function formatAddresses(array $emails): string
     {
         $emails = array_map(
-            function($email, $alias) {
+            function(string $email, string $alias): string {
                 if ($email === $alias) {
                     return $email;
                 }
