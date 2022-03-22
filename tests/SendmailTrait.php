@@ -15,6 +15,8 @@ trait SendmailTrait
     {
         Mailer::setAppCharset('utf-8');
 
+        Mail::clear();
+
         Mail::setConfig('default', [
             'className' =>  SendmailMailer::class
         ]);

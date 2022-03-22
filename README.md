@@ -7,8 +7,8 @@
 - [Installation](#installation)
 - [Methods](#methods)
 - [Mailers](#mailers)
-    - [SMTP](#smtp)
     - [Sendmail](#sendmail)
+    - [SMTP](#smtp)
 - [Emails](#emails)
 
 
@@ -32,10 +32,26 @@ use Fyre\Mail\Mail;
 
 **Clear**
 
-Clear instances.
+Clear all instances and configs.
 
 ```php
 Mail::clear();
+```
+
+**Get Config**
+
+Set a mailer config.
+
+- `$key` is a string representing the mailer key.
+
+```php
+$config = Mail::getConfig($key);
+```
+
+Alternatively, if the `$key` argument is omitted an array containing all configurations will be returned.
+
+```php
+$config = Mail::getConfig();
 ```
 
 **Get Key**
@@ -67,6 +83,22 @@ Set the mailer config.
 
 ```php
 Mail::setConfig($key, $options);
+```
+
+Alternatively, a single array can be provided containing key/value of configuration options.
+
+```php
+Mail::setConfig($config);
+```
+
+**Unload**
+
+Unload a mailer.
+
+- `$key` is a string representing the mailer key, and will default to *"default"*.
+
+```php
+Mail::unload($key);
 ```
 
 **Use**
@@ -121,6 +153,23 @@ $mailer->send($email);
 ```
 
 
+### Sendmail
+
+The Sendmail mailer can be loaded using custom configuration.
+
+- `$key` is a string representing the mailer key.
+- `$options` is an array containing configuration options.
+    - `className` must be set to `\Fyre\Mail\Handlers\SendmailMailer`.
+    - `charset` is a string representing the character set, and will default to "*utf-8*".
+    - `client` is a string representing the client hostname.
+
+```php
+Mail::setConfig($key, $options);
+
+$mailer = Mail::use($key);
+```
+
+
 ### SMTP
 
 The SMTP mailer can be loaded using custom configuration.
@@ -141,22 +190,7 @@ The SMTP mailer can be loaded using custom configuration.
 
 ```php
 Mail::setConfig($key, $options);
-$mailer = Mail::use($key);
-```
 
-
-### Sendmail
-
-The Sendmail mailer can be loaded using custom configuration.
-
-- `$key` is a string representing the mailer key.
-- `$options` is an array containing configuration options.
-    - `className` must be set to `\Fyre\Mail\Handlers\SendmailMailer`.
-    - `charset` is a string representing the character set, and will default to "*utf-8*".
-    - `client` is a string representing the client hostname.
-
-```php
-Mail::setConfig($key, $options);
 $mailer = Mail::use($key);
 ```
 

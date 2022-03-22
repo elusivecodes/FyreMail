@@ -12,6 +12,11 @@ use
 class MailException extends RunTimeException
 {
 
+    public static function forConfigExists(string $key)
+    {
+        return new static('Mail handler config already exists: '.$key);
+    }
+
     public static function forDeliveryFailed(string $message = '')
     {
         return new static('Mail handler delivery failed: '.$message);
@@ -25,6 +30,11 @@ class MailException extends RunTimeException
     public static function forInvalidClass(string $className = '')
     {
         return new static('Mail handler class not found: '.$className);
+    }
+
+    public static function forInvalidConfig(string $key)
+    {
+        return new static('Mail handler invalid config: '.$key);
     }
 
     public static function forInvalidFormat(string $format = '')
