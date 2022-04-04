@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Fyre\Mail\Exceptions;
 
 use
-    RunTimeException;
+    Fyre\Error\Exceptions\Exception;
 
 /**
  * SmtpException
  */
-class SmtpException extends RunTimeException
+class SmtpException extends Exception
 {
 
     public static function forAuthFailed()
