@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace Fyre\Mail\Exceptions;
 
 use
-    Fyre\Error\Exceptions\Exception;
+    RuntimeException;
 
 /**
  * MailException
  */
-class MailException extends Exception
+class MailException extends RuntimeException
 {
 
     public static function forConfigExists(string $key)
