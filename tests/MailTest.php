@@ -15,7 +15,7 @@ final class MailTest extends TestCase
     use
         SendmailTrait;
 
-    public function getConfig(): void
+    public function testGetConfig(): void
     {
         $this->assertSame(
             [
@@ -27,7 +27,7 @@ final class MailTest extends TestCase
         );
     }
 
-    public function getConfigKey(): void
+    public function testGetConfigKey(): void
     {
         $this->assertSame(
             [
@@ -37,7 +37,7 @@ final class MailTest extends TestCase
         );
     }
     
-    public function getKey(): void
+    public function testGetKey(): void
     {
         $handler = Mail::use();
 
@@ -47,7 +47,7 @@ final class MailTest extends TestCase
         );
     }
 
-    public function getKeyInvalid(): void
+    public function testGetKeyInvalid(): void
     {
         $handler = Mail::load([
             'className' => SendmailMailer::class
