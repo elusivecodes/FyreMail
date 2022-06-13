@@ -40,9 +40,9 @@ Mail::clear();
 
 **Get Config**
 
-Set a mailer config.
+Set a [*Mailer*](#mailers) config.
 
-- `$key` is a string representing the mailer key.
+- `$key` is a string representing the [*Mailer*](#mailers) key.
 
 ```php
 $config = Mail::getConfig($key);
@@ -56,9 +56,9 @@ $config = Mail::getConfig();
 
 **Get Key**
 
-Get the key for a mailer instance.
+Get the key for a [*Mailer*](#mailers) instance.
 
-- `$mailer` is a *Mailer*.
+- `$mailer` is a [*Mailer*](#mailers).
 
 ```php
 $key = Mail::getKey($mailer);
@@ -66,7 +66,7 @@ $key = Mail::getKey($mailer);
 
 **Load**
 
-Load a mailer.
+Load a [*Mailer*](#mailers).
 
 - `$options` is an array containing configuration options.
 
@@ -76,9 +76,9 @@ $mailer = Mail::load($options);
 
 **Set Config**
 
-Set the mailer config.
+Set the [*Mailer*](#mailers) config.
 
-- `$key` is a string representing the mailer key.
+- `$key` is a string representing the [*Mailer*](#mailers) key.
 - `$options` is an array containing configuration options.
 
 ```php
@@ -93,9 +93,9 @@ Mail::setConfig($config);
 
 **Unload**
 
-Unload a mailer.
+Unload a [*Mailer*](#mailers).
 
-- `$key` is a string representing the mailer key, and will default to *"default"*.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to *"default"*.
 
 ```php
 Mail::unload($key);
@@ -103,9 +103,9 @@ Mail::unload($key);
 
 **Use**
 
-Load a shared mailer instance.
+Load a shared [*Mailer*](#mailers) instance.
 
-- `$key` is a string representing the mailer key, and will default to *"default"*.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to *"default"*.
 
 ```php
 $mailer = Mail::use($key);
@@ -120,7 +120,7 @@ Custom mailers can be created by extending `\Fyre\Mail\Mailer`, ensuring all bel
 
 **Email**
 
-Create an *Email*.
+Create an [*Email*](#emails).
 
 ```php
 $email = $mailer->email();
@@ -144,9 +144,9 @@ $client = $mailer->getCliet();
 
 **Send**
 
-Send an email.
+Send an [*Email*](#emails).
 
-- `$email` is an *Email*.
+- `$email` is an [*Email*](#emails).
 
 ```php
 $mailer->send($email);
