@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait ToTest
+trait ReplyToTestTrait
 {
 
-    public function testAddTo(): void
+    public function testAddReplyTo(): void
     {
-        $this->email->setTo('test1@test.com');
+        $this->email->setReplyTo('test1@test.com');
 
         $this->assertSame(
             $this->email,
-            $this->email->addTo('test2@test.com')
+            $this->email->addReplyTo('test2@test.com')
         );
 
         $this->assertSame(
@@ -20,55 +20,55 @@ trait ToTest
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testAddToName(): void
+    public function testAddReplyToName(): void
     {
-        $this->email->setTo('test1@test.com');
-        $this->email->addTo('test2@test.com', 'Test 2');
+        $this->email->setReplyTo('test1@test.com');
+        $this->email->addReplyTo('test2@test.com', 'Test 2');
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'Test 2'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testAddToInvalid(): void
+    public function testAddReplyToInvalid(): void
     {
-        $this->email->setTo('test1@test.com');
-        $this->email->addTo('test2');
+        $this->email->setReplyTo('test1@test.com');
+        $this->email->addReplyTo('test2');
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testSetTo(): void
+    public function testSetReplyTo(): void
     {
         $this->assertSame(
             $this->email,
-            $this->email->setTo('test1@test.com')
+            $this->email->setReplyTo('test1@test.com')
         );
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testSetToArray(): void
+    public function testSetReplyToArray(): void
     {
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Test 1'
         ]);
 
@@ -76,13 +76,13 @@ trait ToTest
             [
                 'test1@test.com' => 'Test 1'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testSetToMultiple(): void
+    public function testSetReplyToMultiple(): void
     {
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Test 1',
             'test2@test.com' => 'Test 2'
         ]);
@@ -92,35 +92,35 @@ trait ToTest
                 'test1@test.com' => 'Test 1',
                 'test2@test.com' => 'Test 2'
             ],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testSetToInvalid(): void
+    public function testSetReplyToInvalid(): void
     {
-        $this->email->setTo('test1');
+        $this->email->setReplyTo('test1');
 
         $this->assertSame(
             [],
-            $this->email->getTo()
+            $this->email->getReplyTo()
         );
     }
 
-    public function testHeaderTo(): void
+    public function testHeaderReplyTo(): void
     {
-        $this->email->setTo('test1@test.com');
+        $this->email->setReplyTo('test1@test.com');
 
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
             'test1@test.com',
-            $headers['To']
+            $headers['Reply-To']
         );
     }
 
-    public function testHeaderToName(): void
+    public function testHeaderReplyToName(): void
     {
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Test'
         ]);
 
@@ -128,13 +128,13 @@ trait ToTest
 
         $this->assertSame(
             'test1@test.com <Test>',
-            $headers['To']
+            $headers['Reply-To']
         );
     }
 
-    public function testHeaderToMultiple(): void
+    public function testHeaderReplyToMultiple(): void
     {
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Test 1',
             'test2@test.com' => 'Test 2'
         ]);
@@ -143,13 +143,13 @@ trait ToTest
 
         $this->assertSame(
             'test1@test.com <Test 1>, test2@test.com <Test 2>',
-            $headers['To']
+            $headers['Reply-To']
         );
     }
 
-    public function testHeaderToEncoding(): void
+    public function testHeaderReplyToEncoding(): void
     {
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Тестовое задание'
         ]);
 
@@ -157,14 +157,14 @@ trait ToTest
 
         $this->assertSame(
             'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
-            $headers['To']
+            $headers['Reply-To']
         );
     }
 
-    public function testHeaderToCharset(): void
+    public function testHeaderReplyToCharset(): void
     {
         $this->email->setCharset('iso-8859-1');
-        $this->email->setTo([
+        $this->email->setReplyTo([
             'test1@test.com' => 'Тестовое задание'
         ]);
 
@@ -172,7 +172,7 @@ trait ToTest
 
         $this->assertSame(
             'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
-            $headers['To']
+            $headers['Reply-To']
         );
     }
 

@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-use
-    Fyre\Mail\Email;
+use Fyre\Mail\Email;
 
-trait BodyTest
+trait BodyTestTrait
 {
 
     public function testSetBody(): void

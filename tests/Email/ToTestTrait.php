@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait CcTest
+trait ToTestTrait
 {
 
-    public function testAddCc(): void
+    public function testAddTo(): void
     {
-        $this->email->setCc('test1@test.com');
+        $this->email->setTo('test1@test.com');
 
         $this->assertSame(
             $this->email,
-            $this->email->addCc('test2@test.com')
+            $this->email->addTo('test2@test.com')
         );
 
         $this->assertSame(
@@ -20,55 +20,55 @@ trait CcTest
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testAddCcName(): void
+    public function testAddToName(): void
     {
-        $this->email->setCc('test1@test.com');
-        $this->email->addCc('test2@test.com', 'Test 2');
+        $this->email->setTo('test1@test.com');
+        $this->email->addTo('test2@test.com', 'Test 2');
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'Test 2'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testAddCcInvalid(): void
+    public function testAddToInvalid(): void
     {
-        $this->email->setCc('test1@test.com');
-        $this->email->addCc('test2');
+        $this->email->setTo('test1@test.com');
+        $this->email->addTo('test2');
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testSetCc(): void
+    public function testSetTo(): void
     {
         $this->assertSame(
             $this->email,
-            $this->email->setCc('test1@test.com')
+            $this->email->setTo('test1@test.com')
         );
 
         $this->assertSame(
             [
                 'test1@test.com' => 'test1@test.com'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testSetCcArray(): void
+    public function testSetToArray(): void
     {
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Test 1'
         ]);
 
@@ -76,13 +76,13 @@ trait CcTest
             [
                 'test1@test.com' => 'Test 1'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testSetCcMultiple(): void
+    public function testSetToMultiple(): void
     {
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Test 1',
             'test2@test.com' => 'Test 2'
         ]);
@@ -92,35 +92,35 @@ trait CcTest
                 'test1@test.com' => 'Test 1',
                 'test2@test.com' => 'Test 2'
             ],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testSetCcInvalid(): void
+    public function testSetToInvalid(): void
     {
-        $this->email->setCc('test1');
+        $this->email->setTo('test1');
 
         $this->assertSame(
             [],
-            $this->email->getCc()
+            $this->email->getTo()
         );
     }
 
-    public function testHeaderCc(): void
+    public function testHeaderTo(): void
     {
-        $this->email->setCc('test1@test.com');
+        $this->email->setTo('test1@test.com');
 
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
             'test1@test.com',
-            $headers['Cc']
+            $headers['To']
         );
     }
 
-    public function testHeaderCcName(): void
+    public function testHeaderToName(): void
     {
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Test'
         ]);
 
@@ -128,13 +128,13 @@ trait CcTest
 
         $this->assertSame(
             'test1@test.com <Test>',
-            $headers['Cc']
+            $headers['To']
         );
     }
 
-    public function testHeaderCcMultiple(): void
+    public function testHeaderToMultiple(): void
     {
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Test 1',
             'test2@test.com' => 'Test 2'
         ]);
@@ -143,13 +143,13 @@ trait CcTest
 
         $this->assertSame(
             'test1@test.com <Test 1>, test2@test.com <Test 2>',
-            $headers['Cc']
+            $headers['To']
         );
     }
 
-    public function testHeaderCcEncoding(): void
+    public function testHeaderToEncoding(): void
     {
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Тестовое задание'
         ]);
 
@@ -157,14 +157,14 @@ trait CcTest
 
         $this->assertSame(
             'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
-            $headers['Cc']
+            $headers['To']
         );
     }
 
-    public function testHeaderCcCharset(): void
+    public function testHeaderToCharset(): void
     {
         $this->email->setCharset('iso-8859-1');
-        $this->email->setCc([
+        $this->email->setTo([
             'test1@test.com' => 'Тестовое задание'
         ]);
 
@@ -172,7 +172,7 @@ trait CcTest
 
         $this->assertSame(
             'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
-            $headers['Cc']
+            $headers['To']
         );
     }
 

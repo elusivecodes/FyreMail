@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait ReturnPathTest
+trait ReturnPathTestTrait
 {
 
     public function testSetReturnPath(): void

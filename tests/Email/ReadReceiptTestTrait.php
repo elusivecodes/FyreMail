@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait ReadReceiptTest
+trait ReadReceiptTestTrait
 {
 
     public function testSetReadReceipt(): void

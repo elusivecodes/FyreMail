@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait SubjectTest
+trait SubjectTestTrait
 {
 
     public function testSetSubject(): void

@@ -2,47 +2,44 @@
 
 namespace Fyre\Mail;
 
-use
-    finfo,
-    Fyre\Mail\Exceptions\MailException;
+use finfo;
+use Fyre\Mail\Exceptions\MailException;
 
-use const
-    DATE_RFC2822,
-    FILTER_NULL_ON_FAILURE,
-    FILTER_VALIDATE_EMAIL,
-    PREG_SPLIT_DELIM_CAPTURE,
-    PREG_SPLIT_NO_EMPTY;
+use const DATE_RFC2822;
+use const FILTER_NULL_ON_FAILURE;
+use const FILTER_VALIDATE_EMAIL;
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
 
-use function
-    addcslashes,
-    array_column,
-    array_filter,
-    array_key_exists,
-    array_keys,
-    array_map,
-    array_merge,
-    array_pop,
-    base64_encode,
-    chunk_split,
-    count,
-    date,
-    explode,
-    file_get_contents,
-    filter_var,
-    implode,
-    in_array,
-    is_numeric,
-    mb_convert_encoding,
-    mb_encode_mimeheader,
-    md5,
-    preg_match,
-    preg_split,
-    random_bytes,
-    rtrim,
-    str_replace,
-    strlen,
-    time,
-    wordwrap;
+use function addcslashes;
+use function array_column;
+use function array_filter;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_pop;
+use function base64_encode;
+use function chunk_split;
+use function count;
+use function date;
+use function explode;
+use function file_get_contents;
+use function filter_var;
+use function implode;
+use function in_array;
+use function is_numeric;
+use function mb_convert_encoding;
+use function mb_encode_mimeheader;
+use function md5;
+use function preg_match;
+use function preg_split;
+use function random_bytes;
+use function rtrim;
+use function str_replace;
+use function strlen;
+use function time;
+use function wordwrap;
 
 /**
  * Email

@@ -2,29 +2,26 @@
 
 namespace Fyre\Mail\Handlers;
 
-use
-    Fyre\Mail\Email,
-    Fyre\Mail\Exceptions\SmtpException,
-    Fyre\Mail\Mailer;
+use Fyre\Mail\Email;
+use Fyre\Mail\Exceptions\SmtpException;
+use Fyre\Mail\Mailer;
 
-use const
-    STREAM_CLIENT_CONNECT,
-    STREAM_CRYPTO_METHOD_TLS_CLIENT;
+use const STREAM_CLIENT_CONNECT;
+use const STREAM_CRYPTO_METHOD_TLS_CLIENT;
 
-use function
-    array_key_first,
-    base64_encode,
-    fclose,
-    fgets,
-    fwrite,
-    preg_replace,
-    str_starts_with,
-    stream_context_create,
-    stream_set_timeout,
-    stream_socket_client,
-    stream_socket_enable_crypto,
-    strlen,
-    substr;
+use function array_key_first;
+use function base64_encode;
+use function fclose;
+use function fgets;
+use function fwrite;
+use function preg_replace;
+use function str_starts_with;
+use function stream_context_create;
+use function stream_set_timeout;
+use function stream_socket_client;
+use function stream_socket_enable_crypto;
+use function strlen;
+use function substr;
 
 /**
  * SmtpMailer

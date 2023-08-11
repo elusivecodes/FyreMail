@@ -3,10 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-use
-    Fyre\Mail\Email;
-
-trait BoundaryTest
+trait BoundaryTestTrait
 {
 
     public function testGetBoundary(): void

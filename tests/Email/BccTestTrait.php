@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait BccTest
+trait BccTestTrait
 {
 
     public function testAddBcc(): void

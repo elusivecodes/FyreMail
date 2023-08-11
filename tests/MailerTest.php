@@ -3,18 +3,16 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Mail\Mail,
-    Fyre\Mail\Mailer,
-    Fyre\Mail\Exceptions\MailException,
-    Fyre\Mail\Handlers\SmtpMailer,
-    PHPUnit\Framework\TestCase;
+use Fyre\Mail\Mail;
+use Fyre\Mail\Mailer;
+use Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Handlers\SmtpMailer;
+use PHPUnit\Framework\TestCase;
 
 final class MailerTest extends TestCase
 {
 
-    use
-        SMTPTrait;
+    use SMTPTrait;
 
     public function testFailedConnection(): void
     {

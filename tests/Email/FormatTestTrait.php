@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-use
-    Fyre\Mail\Email,
-    Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Email;
+use Fyre\Mail\Exceptions\MailException;
 
-trait FormatTest
+trait FormatTestTrait
 {
 
     public function testDefaultFormat(): void

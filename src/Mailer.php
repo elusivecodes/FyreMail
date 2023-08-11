@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace Fyre\Mail;
 
-use
-    Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Exceptions\MailException;
 
-use function
-    array_key_exists,
-    array_replace_recursive,
-    php_uname;
+use function array_key_exists;
+use function array_replace;
+use function php_uname;
 
 /**
  * Mailer
@@ -32,7 +30,7 @@ abstract class Mailer
      */
     public function __construct(array $options = [])
     {
-        $this->config = array_replace_recursive(self::$defaults, static::$defaults, $options);
+        $this->config = array_replace(self::$defaults, static::$defaults, $options);
     }
 
     /**

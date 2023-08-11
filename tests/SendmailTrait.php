@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Mail\Mail,
-    Fyre\Mail\Mailer,
-    Fyre\Mail\Handlers\SendmailMailer;
+use Fyre\Mail\Mail;
+use Fyre\Mail\Mailer;
+use Fyre\Mail\Handlers\SendmailMailer;
 
 trait SendmailTrait
 {

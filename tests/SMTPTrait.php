@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Mail\Mail,
-    Fyre\Mail\Mailer,
-    Fyre\Mail\Handlers\SmtpMailer;
+use Fyre\Mail\Mail;
+use Fyre\Mail\Mailer;
+use Fyre\Mail\Handlers\SmtpMailer;
 
-use function
-    getenv;
+use function getenv;
 
 trait SMTPTrait
 {

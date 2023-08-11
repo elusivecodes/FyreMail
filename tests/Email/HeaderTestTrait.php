@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-use
-    DateTime,
-    Fyre\Mail\Email;
+use DateTime;
+use Fyre\Mail\Email;
 
-use const
-    DATE_RFC2822;
+use const DATE_RFC2822;
 
-trait HeaderTest
+trait HeaderTestTrait
 {
 
     public function testSetHeaders(): void

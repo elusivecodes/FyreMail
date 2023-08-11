@@ -2,14 +2,12 @@
 
 namespace Fyre\Mail\Handlers;
 
-use 
-    Fyre\Mail\Email,
-    Fyre\Mail\Exceptions\MailException,
-    Fyre\Mail\Mailer;
+use Fyre\Mail\Email;
+use Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Mailer;
 
-use function
-    error_get_last,
-    mail;
+use function error_get_last;
+use function mail;
 
 /**
  * SendmailMailer

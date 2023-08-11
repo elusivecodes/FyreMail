@@ -3,23 +3,22 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Mail\Mail,
-    Fyre\Mail\Exceptions\MailException,
-    Fyre\Mail\Handlers\SendmailMailer,
-    PHPUnit\Framework\TestCase;
+use Fyre\Mail\Mail;
+use Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Handlers\SendmailMailer;
+use PHPUnit\Framework\TestCase;
 
 final class MailTest extends TestCase
 {
-
-    use
-        SendmailTrait;
 
     public function testGetConfig(): void
     {
         $this->assertSame(
             [
                 'default' => [
+                    'className' =>  SendmailMailer::class
+                ],
+                'other' => [
                     'className' =>  SendmailMailer::class
                 ]
             ],
@@ -58,7 +57,42 @@ final class MailTest extends TestCase
             Mail::getKey($handler)
         );
     }
-    
+
+    public function testIsLoaded(): void
+    {
+        Mail::use();
+        
+        $this->assertTrue(
+            Mail::isLoaded()
+        );
+    }
+
+    public function testIsLoadedKey(): void
+    {
+        Mail::use('other');
+        
+        $this->assertTrue(
+            Mail::isLoaded('other')
+        );
+    }
+
+    public function testIsLoadedInvalid(): void
+    {
+        $this->assertFalse(
+            Mail::isLoaded('test')
+        );
+    }
+
+    public function testLoad(): void
+    {
+        $this->assertInstanceOf(
+            SendmailMailer::class,
+            Mail::load([
+                'className' => SendmailMailer::class
+            ])
+        );
+    }
+
     public function testLoadInvalidHandler(): void
     {
         $this->expectException(MailException::class);
@@ -93,6 +127,45 @@ final class MailTest extends TestCase
         ]);
     }
 
+    public function testUnload(): void
+    {
+        Mail::use();
+
+        $this->assertTrue(
+            Mail::unload()
+        );
+
+        $this->assertFalse(
+            Mail::isLoaded()
+        );
+        $this->assertFalse(
+            Mail::hasConfig()
+        );
+    }
+
+    public function testUnloadKey(): void
+    {
+        Mail::use('other');
+
+        $this->assertTrue(
+            Mail::unload('other')
+        );
+
+        $this->assertFalse(
+            Mail::isLoaded('other')
+        );
+        $this->assertFalse(
+            Mail::hasConfig('other')
+        );
+    }
+
+    public function testUnloadInvalid(): void
+    {
+        $this->assertFalse(
+            Mail::unload('test')
+        );
+    }
+
     public function testUse(): void
     {
         $handler1 = Mail::use();
@@ -104,6 +177,20 @@ final class MailTest extends TestCase
             SendmailMailer::class,
             $handler1
         );
+    }
+
+    protected function setUp(): void
+    {
+        Mail::clear();
+
+        Mail::setConfig([
+            'default' => [
+                'className' =>  SendmailMailer::class
+            ],
+            'other' => [
+                'className' =>  SendmailMailer::class
+            ]
+        ]);
     }
 
 }

@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace Fyre\Mail;
 
-use
-    Fyre\Mail\Exceptions\MailException;
+use Fyre\Mail\Exceptions\MailException;
 
-use function
-    array_key_exists,
-    array_search,
-    class_exists,
-    is_array;
+use function array_key_exists;
+use function array_search;
+use function class_exists;
+use function is_array;
 
 /**
  * Mail
  */
 abstract class Mail
 {
+
+    public const DEFAULT = 'default';
 
     protected static array $config = [];
 
@@ -53,6 +53,26 @@ abstract class Mail
     public static function getKey(Mailer $mailer): string|null
     {
         return array_search($mailer, static::$instances, true) ?: null;
+    }
+
+    /**
+     * Determine if a config exists.
+     * @param string $key The config key.
+     * @return bool TRUE if the config exists, otherwise FALSE.
+     */
+    public static function hasConfig(string $key = self::DEFAULT): bool
+    {
+        return array_key_exists($key, static::$config);
+    }
+
+    /**
+     * Determine if a handler is loaded.
+     * @param string $key The config key.
+     * @return bool TRUE if the handler is loaded, otherwise FALSE.
+     */
+    public static function isLoaded(string $key = self::DEFAULT): bool
+    {
+        return array_key_exists($key, static::$instances);
     }
 
     /**
@@ -104,11 +124,18 @@ abstract class Mail
     /**
      * Unload a handler.
      * @param string $key The config key.
+     * @return bool TRUE if the handler was removed, otherwise FALSE.
      */
-    public static function unload(string $key = 'default'): void
+    public static function unload(string $key = self::DEFAULT): bool
     {
+        if (!array_key_exists($key, static::$config)) {
+            return false;
+        }
+
         unset(static::$instances[$key]);
         unset(static::$config[$key]);
+
+        return true;
     }
 
     /**
@@ -116,7 +143,7 @@ abstract class Mail
      * @param string $key The config key.
      * @return Mailer The handler.
      */
-    public static function use(string $key = 'default'): Mailer
+    public static function use(string $key = self::DEFAULT): Mailer
     {
         return static::$instances[$key] ??= static::load(static::$config[$key] ?? []);
     }

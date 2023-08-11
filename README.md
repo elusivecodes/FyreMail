@@ -1,6 +1,6 @@
 # FyreMail
 
-**FyreMail** is a free, email library for *PHP*.
+**FyreMail** is a free, open-source email library for *PHP*.
 
 
 ## Table Of Contents
@@ -40,7 +40,7 @@ Mail::clear();
 
 **Get Config**
 
-Set a [*Mailer*](#mailers) config.
+Get a [*Mailer*](#mailers) config.
 
 - `$key` is a string representing the [*Mailer*](#mailers) key.
 
@@ -62,6 +62,26 @@ Get the key for a [*Mailer*](#mailers) instance.
 
 ```php
 $key = Mail::getKey($mailer);
+```
+
+**Has Config**
+
+Check if a [*Mailer*](#mailers) config exists.
+
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+
+```php
+$hasConfig = Mail::hasConfig($key);
+```
+
+**Is Loaded**
+
+Check if a [*Mailer*](#mailers) instance is loaded.
+
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+
+```php
+$isLoaded = Mail::isLoaded($key);
 ```
 
 **Load**
@@ -95,17 +115,17 @@ Mail::setConfig($config);
 
 Unload a [*Mailer*](#mailers).
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to *"default"*.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
 
 ```php
-Mail::unload($key);
+$unloaded = Mail::unload($key);
 ```
 
 **Use**
 
 Load a shared [*Mailer*](#mailers) instance.
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to *"default"*.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
 
 ```php
 $mailer = Mail::use($key);

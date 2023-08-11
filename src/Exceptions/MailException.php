@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace Fyre\Mail\Exceptions;
 
-use
-    RuntimeException;
+use RuntimeException;
 
 /**
  * MailException

@@ -3,23 +3,20 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use
-    Fyre\Mail\Email,
-    Fyre\Mail\Mail,
-    Fyre\Mail\Mailer,
-    PHPUnit\Framework\TestCase;
+use Fyre\Mail\Email;
+use Fyre\Mail\Mail;
+use Fyre\Mail\Mailer;
+use PHPUnit\Framework\TestCase;
 
-use function
-    file_get_contents,
-    getenv;
+use function file_get_contents;
+use function getenv;
 
 final class SMTPTest extends TestCase
 {
 
     protected Mailer $mail;
 
-    use
-        SMTPTrait;
+    use SMTPTrait;
 
     /**
      * @doesNotPerformAssertions

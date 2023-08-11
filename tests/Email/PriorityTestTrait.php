@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
-trait PriorityTest
+trait PriorityTestTrait
 {
 
     public function testSetPriority(): void
