@@ -201,7 +201,7 @@ class SmtpMailer extends Mailer
      * Send a command.
      * @param string $command The command.
      * @param string $data The data.
-     * @throws SmtpException If the response was invalid.
+     * @throws SmtpException If the response was not valid.
      */
     protected function sendCommand(string $command, string $data = ''): void
     {

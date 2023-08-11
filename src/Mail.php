@@ -79,7 +79,7 @@ abstract class Mail
      * Load a handler.
      * @param array $options Options for the handler.
      * @return Mailer The handler.
-     * @throws MailException if the handler is invalid.
+     * @throws MailException if the handler is not valid.
      */
     public static function load(array $options = []): Mailer
     {
@@ -98,7 +98,7 @@ abstract class Mail
      * Set handler config.
      * @param string|array $key The config key.
      * @param array|null $options The config options.
-     * @throws MailException if the config is invalid.
+     * @throws MailException if the config is not valid.
      */
     public static function setConfig(string|array $key, array|null $options = null): void
     {

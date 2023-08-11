@@ -620,6 +620,7 @@ class Email
      * Set the email format.
      * @param string $format The email format.
      * @return Email The Email.
+     * @throws MailException if the format is not valid.
      */
     public function setFormat(string $format): static
     {
@@ -749,6 +750,7 @@ class Email
      * @param string $boundary The boundary.
      * @param bool $inline Whether to attach inline files.
      * @return array The attached file lines.
+     * @throws MailException if an attachment is not valid.
      */
     protected function attachFiles(string $boundary, bool $inline = false): array
     {
