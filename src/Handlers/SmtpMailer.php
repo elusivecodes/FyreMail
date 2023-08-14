@@ -45,7 +45,7 @@ class SmtpMailer extends Mailer
     /**
      * SmtpMailer wakeup.
      */
-    public function __wakeup()
+    public function __wakeup(): void
     {
         $this->socket = null;
     }
