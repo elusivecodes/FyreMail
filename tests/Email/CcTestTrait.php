@@ -127,7 +127,7 @@ trait CcTestTrait
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
-            'test1@test.com <Test>',
+            'Test <test1@test.com>',
             $headers['Cc']
         );
     }
@@ -142,7 +142,7 @@ trait CcTestTrait
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
-            'test1@test.com <Test 1>, test2@test.com <Test 2>',
+            'Test 1 <test1@test.com>, Test 2 <test2@test.com>',
             $headers['Cc']
         );
     }
@@ -156,7 +156,7 @@ trait CcTestTrait
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
-            'test1@test.com <=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=>',
+            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
             $headers['Cc']
         );
     }
@@ -171,7 +171,7 @@ trait CcTestTrait
         $headers = $this->email->getFullHeaders();
 
         $this->assertSame(
-            'test1@test.com <=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?=>',
+            '=?ISO-8859-1?B?Pz8/Pz8/Pz8gPz8/Pz8/Pw==?= <test1@test.com>',
             $headers['Cc']
         );
     }

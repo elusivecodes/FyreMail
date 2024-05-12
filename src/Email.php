@@ -817,7 +817,7 @@ class Email
                     $encodedAlias = '"'.addcslashes($encodedAlias, '"').'"';
                 }
 
-                return $email.' <'.$encodedAlias.'>';
+                return $encodedAlias.' <'.$email.'>';
             },
             array_keys($emails),
             $emails

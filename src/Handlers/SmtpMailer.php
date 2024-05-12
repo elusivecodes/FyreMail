@@ -81,13 +81,10 @@ class SmtpMailer extends Mailer
         $this->sendCommand('data');
 
         $headers = $email->getFullHeaderString();
-        $this->sendData($headers);
-
         $body = $email->getFullBodyString();
         $body = preg_replace('/^\./m', '..$1', $body);
 
-        $this->sendData($body);
-
+        $this->sendData($headers."\r\n\r\n".$body."\r\n\r\n");
         $this->sendCommand('dot');
 
         $this->end();
