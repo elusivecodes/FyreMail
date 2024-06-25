@@ -14,18 +14,38 @@ use function php_uname;
  */
 abstract class Mailer
 {
-
     protected static string|null $appCharset = null;
 
     protected static array $defaults = [
         'charset' => 'utf-8',
-        'client' => null
+        'client' => null,
     ];
 
     protected array $config;
 
     /**
+     * Get the app charset.
+     *
+     * @return string|null The app charset.
+     */
+    public static function getAppCharset(): string|null
+    {
+        return static::$appCharset;
+    }
+
+    /**
+     * Set the app charset.
+     *
+     * @param string|null $charset The charset.
+     */
+    public static function setAppCharset(string|null $charset = null): void
+    {
+        static::$appCharset = $charset;
+    }
+
+    /**
      * New Cacher constructor.
+     *
      * @param array $options Options for the handler.
      */
     public function __construct(array $options = [])
@@ -35,6 +55,7 @@ abstract class Mailer
 
     /**
      * Create a new Email.
+     *
      * @return Email The new Email.
      */
     public function email(): Email
@@ -44,6 +65,7 @@ abstract class Mailer
 
     /**
      * Get the charset.
+     *
      * @return string The charset.
      */
     public function getCharset(): string
@@ -53,6 +75,7 @@ abstract class Mailer
 
     /**
      * Get the client hostname.
+     *
      * @return string The client hostname.
      */
     public function getClient(): string
@@ -62,7 +85,7 @@ abstract class Mailer
         }
 
         if (array_key_exists('SERVER_NAME', $_SERVER)) {
-			return $_SERVER['SERVER_NAME'];
+            return $_SERVER['SERVER_NAME'];
         }
 
         if (array_key_exists('SERVER_ADDR', $_SERVER)) {
@@ -74,31 +97,16 @@ abstract class Mailer
 
     /**
      * Send an email.
+     *
      * @param Email $email The email to send.
      */
     abstract public function send(Email $email): void;
 
     /**
-     * Get the app charset.
-     * @return string|null The app charset.
-     */
-    public static function getAppCharset(): string|null
-    {
-        return static::$appCharset;
-    }
-
-    /**
-     * Set the app charset.
-     * @param string|null $charset The charset.
-     */
-    public static function setAppCharset(string|null $charset = null): void
-    {
-        static::$appCharset = $charset;
-    }
-
-    /**
      * Check an email has recipients.
+     *
      * @param Email $email The email to check.
+     *
      * @throws MailException if the email has no recipients.
      */
     protected static function checkEmail(Email $email): void
@@ -107,5 +115,4 @@ abstract class Mailer
             throw MailException::forMissingRecipients();
         }
     }
-
 }

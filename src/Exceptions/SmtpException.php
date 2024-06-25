@@ -10,7 +10,6 @@ use RuntimeException;
  */
 class SmtpException extends RuntimeException
 {
-
     public static function forAuthFailed(): static
     {
         return new static('Mail handler authentication failed');
@@ -30,5 +29,4 @@ class SmtpException extends RuntimeException
     {
         return new static('Mail handler invalid response');
     }
-
 }

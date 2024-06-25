@@ -8,7 +8,6 @@ use Fyre\Mail\Exceptions\MailException;
 
 trait FormatTestTrait
 {
-
     public function testDefaultFormat(): void
     {
         $this->assertSame(
@@ -30,16 +29,6 @@ trait FormatTestTrait
         );
     }
 
-    public function testSetFormatHtml(): void
-    {
-        $this->email->setFormat(Email::HTML);
-
-        $this->assertSame(
-            Email::HTML,
-            $this->email->getFormat()
-        );
-    }
-
     public function testSetFormatBoth(): void
     {
         $this->email->setFormat(Email::BOTH);
@@ -50,11 +39,20 @@ trait FormatTestTrait
         );
     }
 
+    public function testSetFormatHtml(): void
+    {
+        $this->email->setFormat(Email::HTML);
+
+        $this->assertSame(
+            Email::HTML,
+            $this->email->getFormat()
+        );
+    }
+
     public function testSetFormatInvalid(): void
     {
         $this->expectException(MailException::class);
 
         $this->email->setFormat('invalid');
     }
-
 }

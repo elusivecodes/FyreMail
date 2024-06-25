@@ -5,29 +5,28 @@ namespace Tests\Email;
 
 trait AttachmentTestTrait
 {
-
     public function testAddAttachments(): void
     {
         $this->email->setAttachments([
             'test1.jpg' => [
-                'file' => 'test1.jpg'
-            ]
+                'file' => 'test1.jpg',
+            ],
         ]);
 
         $this->email->addAttachments([
             'test2.jpg' => [
-                'file' => 'test2.jpg'
-            ]
+                'file' => 'test2.jpg',
+            ],
         ]);
 
         $this->assertSame(
             [
                 'test1.jpg' => [
-                    'file' => 'test1.jpg'
+                    'file' => 'test1.jpg',
                 ],
                 'test2.jpg' => [
-                    'file' => 'test2.jpg'
-                ]
+                    'file' => 'test2.jpg',
+                ],
             ],
             $this->email->getAttachments()
         );
@@ -37,18 +36,17 @@ trait AttachmentTestTrait
     {
         $this->email->setAttachments([
             'test.jpg' => [
-                'file' => 'test.jpg'
-            ]
+                'file' => 'test.jpg',
+            ],
         ]);
 
         $this->assertSame(
             [
                 'test.jpg' => [
-                    'file' => 'test.jpg'
-                ]
+                    'file' => 'test.jpg',
+                ],
             ],
             $this->email->getAttachments()
         );
     }
-
 }

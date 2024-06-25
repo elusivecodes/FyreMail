@@ -10,9 +10,6 @@ use Tests\SendmailTrait;
 
 final class EmailTest extends TestCase
 {
-
-    protected Email $email;
-
     use AttachmentTestTrait;
     use BccTestTrait;
     use BodyTestTrait;
@@ -32,9 +29,10 @@ final class EmailTest extends TestCase
     use SubjectTestTrait;
     use ToTestTrait;
 
+    protected Email $email;
+
     protected function setUp(): void
     {
         $this->email = Mail::use()->email();
     }
-
 }

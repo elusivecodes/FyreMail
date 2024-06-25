@@ -14,10 +14,11 @@ use function mail;
  */
 class SendmailMailer extends Mailer
 {
-
     /**
      * Send an email.
+     *
      * @param Email $email The email to send.
+     *
      * @throws MailException if the email could not be sent.
      */
     public function send(Email $email): void
@@ -38,5 +39,4 @@ class SendmailMailer extends Mailer
             throw MailException::forDeliveryFailed($error['message'] ?? '');
         }
     }
-
 }

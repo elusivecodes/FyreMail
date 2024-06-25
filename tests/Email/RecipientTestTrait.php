@@ -5,7 +5,6 @@ namespace Tests\Email;
 
 trait RecipientTestTrait
 {
-
     public function testRecipients(): void
     {
         $this->email->setTo('test1@test.com');
@@ -16,10 +15,9 @@ trait RecipientTestTrait
             [
                 'test1@test.com' => 'test1@test.com',
                 'test2@test.com' => 'test2@test.com',
-                'test3@test.com' => 'test3@test.com'
+                'test3@test.com' => 'test3@test.com',
             ],
             $this->email->getRecipients()
         );
     }
-
 }

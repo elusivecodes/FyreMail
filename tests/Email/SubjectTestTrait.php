@@ -5,20 +5,6 @@ namespace Tests\Email;
 
 trait SubjectTestTrait
 {
-
-    public function testSetSubject(): void
-    {
-        $this->assertSame(
-            $this->email,
-            $this->email->setSubject('Test')
-        );
-
-        $this->assertSame(
-            'Test',
-            $this->email->getSubject()
-        );
-    }
-
     public function testHeaderSubject(): void
     {
         $this->email->setSubject('Test');
@@ -27,18 +13,6 @@ trait SubjectTestTrait
 
         $this->assertSame(
             'Test',
-            $headers['Subject']
-        );
-    }
-
-    public function testHeaderSubjectEncoding(): void
-    {
-        $this->email->setSubject('Тестовое задание');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=',
             $headers['Subject']
         );
     }
@@ -56,4 +30,28 @@ trait SubjectTestTrait
         );
     }
 
+    public function testHeaderSubjectEncoding(): void
+    {
+        $this->email->setSubject('Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?=',
+            $headers['Subject']
+        );
+    }
+
+    public function testSetSubject(): void
+    {
+        $this->assertSame(
+            $this->email,
+            $this->email->setSubject('Test')
+        );
+
+        $this->assertSame(
+            'Test',
+            $this->email->getSubject()
+        );
+    }
 }

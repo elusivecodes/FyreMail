@@ -3,24 +3,23 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Fyre\Mail\Mail;
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SendmailMailer;
+use Fyre\Mail\Mail;
 use PHPUnit\Framework\TestCase;
 
 final class MailTest extends TestCase
 {
-
     public function testGetConfig(): void
     {
         $this->assertSame(
             [
                 'default' => [
-                    'className' =>  SendmailMailer::class
+                    'className' => SendmailMailer::class,
                 ],
                 'other' => [
-                    'className' =>  SendmailMailer::class
-                ]
+                    'className' => SendmailMailer::class,
+                ],
             ],
             Mail::getConfig()
         );
@@ -30,12 +29,12 @@ final class MailTest extends TestCase
     {
         $this->assertSame(
             [
-                'className' =>  SendmailMailer::class
+                'className' => SendmailMailer::class,
             ],
             Mail::getConfig('default')
         );
     }
-    
+
     public function testGetKey(): void
     {
         $handler = Mail::use();
@@ -49,7 +48,7 @@ final class MailTest extends TestCase
     public function testGetKeyInvalid(): void
     {
         $handler = Mail::load([
-            'className' => SendmailMailer::class
+            'className' => SendmailMailer::class,
         ]);
 
         $this->assertSame(
@@ -61,18 +60,9 @@ final class MailTest extends TestCase
     public function testIsLoaded(): void
     {
         Mail::use();
-        
+
         $this->assertTrue(
             Mail::isLoaded()
-        );
-    }
-
-    public function testIsLoadedKey(): void
-    {
-        Mail::use('other');
-        
-        $this->assertTrue(
-            Mail::isLoaded('other')
         );
     }
 
@@ -83,12 +73,21 @@ final class MailTest extends TestCase
         );
     }
 
+    public function testIsLoadedKey(): void
+    {
+        Mail::use('other');
+
+        $this->assertTrue(
+            Mail::isLoaded('other')
+        );
+    }
+
     public function testLoad(): void
     {
         $this->assertInstanceOf(
             SendmailMailer::class,
             Mail::load([
-                'className' => SendmailMailer::class
+                'className' => SendmailMailer::class,
             ])
         );
     }
@@ -98,7 +97,7 @@ final class MailTest extends TestCase
         $this->expectException(MailException::class);
 
         Mail::load([
-            'className' => 'Invalid'
+            'className' => 'Invalid',
         ]);
     }
 
@@ -106,13 +105,13 @@ final class MailTest extends TestCase
     {
         Mail::setConfig([
             'test' => [
-                'className' => SendmailMailer::class
-            ]
+                'className' => SendmailMailer::class,
+            ],
         ]);
 
         $this->assertSame(
             [
-                'className' => SendmailMailer::class
+                'className' => SendmailMailer::class,
             ],
             Mail::getConfig('test')
         );
@@ -123,7 +122,7 @@ final class MailTest extends TestCase
         $this->expectException(MailException::class);
 
         Mail::setConfig('default', [
-            'className' => SendmailMailer::class
+            'className' => SendmailMailer::class,
         ]);
     }
 
@@ -143,6 +142,13 @@ final class MailTest extends TestCase
         );
     }
 
+    public function testUnloadInvalid(): void
+    {
+        $this->assertFalse(
+            Mail::unload('test')
+        );
+    }
+
     public function testUnloadKey(): void
     {
         Mail::use('other');
@@ -156,13 +162,6 @@ final class MailTest extends TestCase
         );
         $this->assertFalse(
             Mail::hasConfig('other')
-        );
-    }
-
-    public function testUnloadInvalid(): void
-    {
-        $this->assertFalse(
-            Mail::unload('test')
         );
     }
 
@@ -185,12 +184,11 @@ final class MailTest extends TestCase
 
         Mail::setConfig([
             'default' => [
-                'className' =>  SendmailMailer::class
+                'className' => SendmailMailer::class,
             ],
             'other' => [
-                'className' =>  SendmailMailer::class
-            ]
+                'className' => SendmailMailer::class,
+            ],
         ]);
     }
-
 }

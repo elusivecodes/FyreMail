@@ -10,7 +10,6 @@ use RuntimeException;
  */
 class MailException extends RuntimeException
 {
-
     public static function forConfigExists(string $key): static
     {
         return new static('Mail handler config already exists: '.$key);
@@ -45,5 +44,4 @@ class MailException extends RuntimeException
     {
         return new static('Mail handler missing recipients');
     }
-
 }

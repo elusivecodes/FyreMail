@@ -5,7 +5,6 @@ namespace Tests\Email;
 
 trait CharsetTestTrait
 {
-
     public function testDefaultCharset(): void
     {
         $this->assertSame(
@@ -26,5 +25,4 @@ trait CharsetTestTrait
             $this->email->getCharset()
         );
     }
-
 }

@@ -5,44 +5,6 @@ namespace Tests\Email;
 
 trait ReadReceiptTestTrait
 {
-
-    public function testSetReadReceipt(): void
-    {
-        $this->assertSame(
-            $this->email,
-            $this->email->setReadReceipt('test1@test.com')
-        );
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'test1@test.com'
-            ],
-            $this->email->getReadReceipt()
-        );
-    }
-
-    public function testSetReadReceiptName(): void
-    {
-        $this->email->setReadReceipt('test1@test.com', 'Test 1');
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'Test 1'
-            ],
-            $this->email->getReadReceipt()
-        );
-    }
-
-    public function testSetReadReceiptInvalid(): void
-    {
-        $this->email->setReadReceipt('test1');
-
-        $this->assertSame(
-            [],
-            $this->email->getReadReceipt()
-        );
-    }
-
     public function testHeaderReadReceipt(): void
     {
         $this->email->setReadReceipt('test1@test.com');
@@ -51,30 +13,6 @@ trait ReadReceiptTestTrait
 
         $this->assertSame(
             'test1@test.com',
-            $headers['Disposition-Notification-To']
-        );
-    }
-
-    public function testHeaderReadReceiptName(): void
-    {
-        $this->email->setReadReceipt('test1@test.com', 'Test');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            'Test <test1@test.com>',
-            $headers['Disposition-Notification-To']
-        );
-    }
-
-    public function testHeaderReadReceiptEncoding(): void
-    {
-        $this->email->setReadReceipt('test1@test.com', 'Тестовое задание');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
             $headers['Disposition-Notification-To']
         );
     }
@@ -92,4 +30,64 @@ trait ReadReceiptTestTrait
         );
     }
 
+    public function testHeaderReadReceiptEncoding(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+    public function testHeaderReadReceiptName(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Test');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            'Test <test1@test.com>',
+            $headers['Disposition-Notification-To']
+        );
+    }
+
+    public function testSetReadReceipt(): void
+    {
+        $this->assertSame(
+            $this->email,
+            $this->email->setReadReceipt('test1@test.com')
+        );
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'test1@test.com',
+            ],
+            $this->email->getReadReceipt()
+        );
+    }
+
+    public function testSetReadReceiptInvalid(): void
+    {
+        $this->email->setReadReceipt('test1');
+
+        $this->assertSame(
+            [],
+            $this->email->getReadReceipt()
+        );
+    }
+
+    public function testSetReadReceiptName(): void
+    {
+        $this->email->setReadReceipt('test1@test.com', 'Test 1');
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'Test 1',
+            ],
+            $this->email->getReadReceipt()
+        );
+    }
 }

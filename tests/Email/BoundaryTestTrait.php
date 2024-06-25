@@ -5,7 +5,6 @@ namespace Tests\Email;
 
 trait BoundaryTestTrait
 {
-
     public function testGetBoundary(): void
     {
         $this->assertMatchesRegularExpression(
@@ -21,5 +20,4 @@ trait BoundaryTestTrait
             $this->email->getBoundary()
         );
     }
-
 }

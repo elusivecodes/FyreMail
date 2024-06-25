@@ -5,12 +5,6 @@ namespace Fyre\Mail;
 use finfo;
 use Fyre\Mail\Exceptions\MailException;
 
-use const DATE_RFC2822;
-use const FILTER_NULL_ON_FAILURE;
-use const FILTER_VALIDATE_EMAIL;
-use const PREG_SPLIT_DELIM_CAPTURE;
-use const PREG_SPLIT_NO_EMPTY;
-
 use function addcslashes;
 use function array_column;
 use function array_filter;
@@ -41,40 +35,62 @@ use function strlen;
 use function time;
 use function wordwrap;
 
+use const DATE_RFC2822;
+use const FILTER_NULL_ON_FAILURE;
+use const FILTER_VALIDATE_EMAIL;
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
+
 /**
  * Email
  */
 class Email
 {
+    public const BOTH = 'both';
 
     public const HTML = 'html';
+
     public const TEXT = 'text';
-    public const BOTH = 'both';
+
+    protected array $attachments = [];
+
+    protected array $bcc = [];
+
+    protected array $body = [];
+
+    protected string $boundary;
+
+    protected array $cc = [];
+
+    protected string $charset = 'utf-8';
+
+    protected string $format = self::TEXT;
+
+    protected array $from = [];
+
+    protected array $headers = [];
 
     protected Mailer $mailer;
 
-    protected array $to = [];
-    protected array $from = [];
-    protected array $sender = [];
-    protected array $replyTo = [];
-    protected array $readReceipt = [];
-    protected array $returnPath = [];
-    protected array $cc = [];
-    protected array $bcc = [];
-    protected string $subject = '';
-    protected array $headers = [];
-    protected array $body = [];
-    protected array $attachments = [];
-
-    protected int|null $priority = null;
-    protected string $charset = 'utf-8';
     protected string $messageId;
 
-    protected string $format = self::TEXT;
-    protected string $boundary;
+    protected int|null $priority = null;
+
+    protected array $readReceipt = [];
+
+    protected array $replyTo = [];
+
+    protected array $returnPath = [];
+
+    protected array $sender = [];
+
+    protected string $subject = '';
+
+    protected array $to = [];
 
     /**
      * New Email constructor.
+     *
      * @param Mailer $mailer The mailer.
      */
     public function __construct(Mailer $mailer)
@@ -86,12 +102,13 @@ class Email
 
     /**
      * Add attachments.
+     *
      * @param array $attachments The attachments.
      * @return Email The email.
      */
     public function addAttachments(array $attachments): static
     {
-        foreach ($attachments AS $filename => $attachment) {
+        foreach ($attachments as $filename => $attachment) {
             $this->attachments[$filename] = $attachment;
         }
 
@@ -100,6 +117,7 @@ class Email
 
     /**
      * Add a BCC address.
+     *
      * @param string $email The email address.
      * @param string|null $name The name.
      * @return Email The Email.
@@ -117,6 +135,7 @@ class Email
 
     /**
      * Add a CC address.
+     *
      * @param string $email The email address.
      * @param string|null $name The name.
      * @return Email The Email.
@@ -134,6 +153,7 @@ class Email
 
     /**
      * Add a reply to address.
+     *
      * @param string $email The email address.
      * @param string|null $name The name.
      * @return Email The Email.
@@ -151,6 +171,7 @@ class Email
 
     /**
      * Add a to address.
+     *
      * @param string $email The email address.
      * @param string|null $name The name.
      * @return Email The Email.
@@ -168,6 +189,7 @@ class Email
 
     /**
      * Get the attachments.
+     *
      * @return array The attachments.
      */
     public function getAttachments(): array
@@ -177,6 +199,7 @@ class Email
 
     /**
      * Get the BCC addresses.
+     *
      * @return array The BCC addresses.
      */
     public function getBcc(): array
@@ -186,6 +209,7 @@ class Email
 
     /**
      * Get the HTML body string.
+     *
      * @return string The HTML body string.
      */
     public function getBodyHtml(): string
@@ -195,6 +219,7 @@ class Email
 
     /**
      * Get the text body string.
+     *
      * @return string The text body string.
      */
     public function getBodyText(): string
@@ -204,6 +229,7 @@ class Email
 
     /**
      * Get the boundary.
+     *
      * @param string The boundary.
      */
     public function getBoundary(): string
@@ -213,6 +239,7 @@ class Email
 
     /**
      * Get the CC addresses.
+     *
      * @return array The CC addresses.
      */
     public function getCc(): array
@@ -222,6 +249,7 @@ class Email
 
     /**
      * Get the charset.
+     *
      * @return string The charset.
      */
     public function getCharset(): string
@@ -231,6 +259,7 @@ class Email
 
     /**
      * Get the email format.
+     *
      * @return string The email format.
      */
     public function getFormat(): string
@@ -240,6 +269,7 @@ class Email
 
     /**
      * Get the from addresses.
+     *
      * @return array The from addresses.
      */
     public function getFrom(): array
@@ -249,6 +279,7 @@ class Email
 
     /**
      * Get the full email body lines.
+     *
      * @return array The body lines.
      */
     public function getFullBody(): array
@@ -342,6 +373,7 @@ class Email
 
     /**
      * Get the full email body string.
+     *
      * @return string The body string.
      */
     public function getFullBodyString(): string
@@ -353,6 +385,7 @@ class Email
 
     /**
      * Get the full email header lines.
+     *
      * @return array The email header lines.
      */
     public function getFullHeaders(): array
@@ -366,10 +399,10 @@ class Email
             'Return-Path' => 'returnPath',
             'To' => 'to',
             'Cc' => 'cc',
-            'Bcc' => 'bcc'
+            'Bcc' => 'bcc',
         ];
 
-        foreach ($addressHeaders AS $header => $property) {
+        foreach ($addressHeaders as $header => $property) {
             if ($this->$property === []) {
                 continue;
             }
@@ -408,6 +441,7 @@ class Email
 
     /**
      * Get the full email header string.
+     *
      * @return array The email header string.
      */
     public function getFullHeaderString(): string
@@ -415,7 +449,7 @@ class Email
         $lines = $this->getFullHeaders();
 
         $headers = [];
-        foreach ($lines AS $key => $value) {
+        foreach ($lines as $key => $value) {
             if ($value === [] || (!$value && $value !== '0')) {
                 continue;
             }
@@ -424,7 +458,7 @@ class Email
                 $value = [$value];
             }
 
-            foreach ($value AS $val) {
+            foreach ($value as $val) {
                 $headers[] = $key.': '.$val;
             }
         }
@@ -434,6 +468,7 @@ class Email
 
     /**
      * Get the additional headers.
+     *
      * @return array The additional headers.
      */
     public function getHeaders(): array
@@ -443,6 +478,7 @@ class Email
 
     /**
      * Get the message ID.
+     *
      * @return string The message ID.
      */
     public function getMessageId(): string
@@ -452,6 +488,7 @@ class Email
 
     /**
      * Get the priority.
+     *
      * @return int|null The priority.
      */
     public function getPriority(): int|null
@@ -461,6 +498,7 @@ class Email
 
     /**
      * Get the read recipient addresses.
+     *
      * @return array The read recipient addresses.
      */
     public function getReadReceipt(): array
@@ -470,6 +508,7 @@ class Email
 
     /**
      * Get the recipient addresses.
+     *
      * @return array The recipient addresses.
      */
     public function getRecipients(): array
@@ -483,6 +522,7 @@ class Email
 
     /**
      * Get the reply to addresses.
+     *
      * @return array The reply to addresses.
      */
     public function getReplyTo(): array
@@ -492,6 +532,7 @@ class Email
 
     /**
      * Get the return path addresses.
+     *
      * @return array The return path addresses.
      */
     public function getReturnPath(): array
@@ -501,6 +542,7 @@ class Email
 
     /**
      * Get the sender addresses.
+     *
      * @return array The sender addresses.
      */
     public function getSender(): array
@@ -510,6 +552,7 @@ class Email
 
     /**
      * Get the subject.
+     *
      * @return string The subject.
      */
     public function getSubject(): string
@@ -519,6 +562,7 @@ class Email
 
     /**
      * Get the to addresses.
+     *
      * @return array The to addresses.
      */
     public function getTo(): array
@@ -536,6 +580,7 @@ class Email
 
     /**
      * Set the attachments.
+     *
      * @param array $attachments The attachments.
      * @return Email The email.
      */
@@ -548,10 +593,11 @@ class Email
 
     /**
      * Set the BCC address.
+     *
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setBcc(string|array $emails): static
+    public function setBcc(array|string $emails): static
     {
         $this->bcc = static::parseEmails($emails);
 
@@ -560,12 +606,13 @@ class Email
 
     /**
      * Set the body text and/or HTML.
+     *
      * @param array $body The body text and/or HTML.
      * @return Email The Email.
      */
     public function setBody(array $body): static
     {
-        foreach ($body AS $type => $content) {
+        foreach ($body as $type => $content) {
             $this->body[$type] = $content;
         }
 
@@ -574,6 +621,7 @@ class Email
 
     /**
      * Set the body HTML.
+     *
      * @param string $content The content.
      * @return Email The Email.
      */
@@ -584,6 +632,7 @@ class Email
 
     /**
      * Set the body text.
+     *
      * @param string $content The content.
      * @return Email The Email.
      */
@@ -594,10 +643,11 @@ class Email
 
     /**
      * Set the CC address.
+     *
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setCc(string|array $emails): static
+    public function setCc(array|string $emails): static
     {
         $this->cc = static::parseEmails($emails);
 
@@ -606,6 +656,7 @@ class Email
 
     /**
      * Set the charset.
+     *
      * @param string $charset The charset.
      * @return Email The Email.
      */
@@ -618,8 +669,10 @@ class Email
 
     /**
      * Set the email format.
+     *
      * @param string $format The email format.
      * @return Email The Email.
+     *
      * @throws MailException if the format is not valid.
      */
     public function setFormat(string $format): static
@@ -635,8 +688,9 @@ class Email
 
     /**
      * Set the from address.
-     * @param string $emails The email address.
+     *
      * @param string|null $name The name.
+     * @param string $emails The email address.
      * @return Email The Email.
      */
     public function setFrom(string $email, string|null $name = null): static
@@ -648,6 +702,7 @@ class Email
 
     /**
      * Set additional headers.
+     *
      * @param array $headers The headers.
      * @return Email The Email.
      */
@@ -660,6 +715,7 @@ class Email
 
     /**
      * Set the priority.
+     *
      * @param int|null $priority The priority.
      * @return Email The Email.
      */
@@ -672,8 +728,9 @@ class Email
 
     /**
      * Set the read receipt address.
-     * @param string $emails The email address.
+     *
      * @param string|null $name The name.
+     * @param string $emails The email address.
      * @return Email The Email.
      */
     public function setReadReceipt(string $email, string|null $name = null): static
@@ -685,10 +742,11 @@ class Email
 
     /**
      * Set the reply to address.
+     *
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setReplyTo(string|array $emails): static
+    public function setReplyTo(array|string $emails): static
     {
         $this->replyTo = static::parseEmails($emails);
 
@@ -697,8 +755,9 @@ class Email
 
     /**
      * Set the return path address.
-     * @param string $emails The email address.
+     *
      * @param string|null $name The name.
+     * @param string $emails The email address.
      * @return Email The Email.
      */
     public function setReturnPath(string $email, string|null $name = null): static
@@ -710,8 +769,9 @@ class Email
 
     /**
      * Set the sender address.
-     * @param string $emails The email address.
+     *
      * @param string|null $name The name.
+     * @param string $emails The email address.
      * @return Email The Email.
      */
     public function setSender(string $email, string|null $name = null): static
@@ -723,6 +783,7 @@ class Email
 
     /**
      * Set the subject.
+     *
      * @param string $subject The subject.
      * @return Email The Email.
      */
@@ -735,10 +796,11 @@ class Email
 
     /**
      * Set the to addresses.
+     *
      * @param string|array $emails The email addresses.
      * @return Email The Email.
      */
-    public function setTo(string|array $emails): static
+    public function setTo(array|string $emails): static
     {
         $this->to = static::parseEmails($emails);
 
@@ -747,19 +809,21 @@ class Email
 
     /**
      * Get attached files lines.
+     *
      * @param string $boundary The boundary.
      * @param bool $inline Whether to attach inline files.
      * @return array The attached file lines.
+     *
      * @throws MailException if an attachment is not valid.
      */
     protected function attachFiles(string $boundary, bool $inline = false): array
     {
         $lines = [];
 
-        foreach ($this->attachments AS $filename => $attachment) {
+        foreach ($this->attachments as $filename => $attachment) {
             $attachment['contentId'] ??= null;
 
-            if ($inline !== !!$attachment['contentId']) {
+            if ($inline !== (bool) $attachment['contentId']) {
                 continue;
             }
 
@@ -768,7 +832,7 @@ class Email
             } else {
                 $attachment['disposition'] ??= 'attachment';
             }
-    
+
             if (array_key_exists('file', $attachment)) {
                 $attachment['content'] ??= file_get_contents($attachment['file']);
             } else if (!array_key_exists('content', $attachment)) {
@@ -800,6 +864,7 @@ class Email
 
     /**
      * Get formatted email addresses.
+     *
      * @param array $emails The email addresses.
      * @return string The formatted email addresses.
      */
@@ -828,6 +893,7 @@ class Email
 
     /**
      * Encode MIME header string.
+     *
      * @param string $string The string.
      * @param string $charset The charset.
      * @return string The encoded string.
@@ -839,6 +905,7 @@ class Email
 
     /**
      * Convert encoding.
+     *
      * @param string $string The string.
      * @param string $charsetTo The charset to convert to.
      * @param string|null $charsetFrom The charset to convert from.
@@ -855,17 +922,18 @@ class Email
 
     /**
      * Parse email addresses.
+     *
      * @param string|array $emails The email addresses.
      * @return array The parsed email addresses.
      */
-    protected static function parseEmails(string|array $emails): array
+    protected static function parseEmails(array|string $emails): array
     {
         if (is_string($emails)) {
             $emails = [$emails];
         }
 
         $results = [];
-        foreach ($emails AS $key => $value) {
+        foreach ($emails as $key => $value) {
             if (is_numeric($key)) {
                 $key = $value;
                 $value = null;
@@ -885,6 +953,7 @@ class Email
 
     /**
      * Encode, wrap and split body text into lines.
+     *
      * @param string $content The body content.
      * @param string $charset The charset.
      * @return array The body text lines.
@@ -902,6 +971,7 @@ class Email
 
     /**
      * Generate a random string.
+     *
      * @return string The random string.
      */
     protected static function randomString(): string
@@ -911,6 +981,7 @@ class Email
 
     /**
      * Validate an email address.
+     *
      * @param string $email The email address.
      * @return string|null The validated email address.
      */
@@ -921,6 +992,7 @@ class Email
 
     /**
      * Wrap a string to a character limit.
+     *
      * @param string $string The string.
      * @param int $charLimit The character limit.
      * @return array The wrapped lines.
@@ -931,27 +1003,30 @@ class Email
         $lines = explode("\n", $string);
 
         $formatted = [];
-        foreach ($lines AS $line) {
+        foreach ($lines as $line) {
             if (!$line && $line !== '0') {
                 $formatted[] = '';
+
                 continue;
             }
 
             if (strlen($line) <= $charLimit) {
                 $formatted[] = $line;
+
                 continue;
             }
 
             $parts = preg_split('/(<[^>]*>)/', $line, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
             $currentLine = '';
-            foreach ($parts AS $part) {
+            foreach ($parts as $part) {
                 $currentLine ??= '';
                 $partLength = strlen($part);
 
                 // if current line will remain below length limit
                 if (strlen($currentLine) + $partLength <= $charLimit) {
                     $currentLine .= $part;
+
                     continue;
                 }
 
@@ -983,5 +1058,4 @@ class Email
 
         return $formatted;
     }
-
 }

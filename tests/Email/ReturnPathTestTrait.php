@@ -5,44 +5,6 @@ namespace Tests\Email;
 
 trait ReturnPathTestTrait
 {
-
-    public function testSetReturnPath(): void
-    {
-        $this->assertSame(
-            $this->email,
-            $this->email->setReturnPath('test1@test.com')
-        );
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'test1@test.com'
-            ],
-            $this->email->getReturnPath()
-        );
-    }
-
-    public function testSetReturnPathName(): void
-    {
-        $this->email->setReturnPath('test1@test.com', 'Test 1');
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'Test 1'
-            ],
-            $this->email->getReturnPath()
-        );
-    }
-
-    public function testSetReturnPathInvalid(): void
-    {
-        $this->email->setReturnPath('test1');
-
-        $this->assertSame(
-            [],
-            $this->email->getReturnPath()
-        );
-    }
-
     public function testHeaderReturnPath(): void
     {
         $this->email->setReturnPath('test1@test.com');
@@ -51,30 +13,6 @@ trait ReturnPathTestTrait
 
         $this->assertSame(
             'test1@test.com',
-            $headers['Return-Path']
-        );
-    }
-
-    public function testHeaderReturnPathName(): void
-    {
-        $this->email->setReturnPath('test1@test.com', 'Test');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            'Test <test1@test.com>',
-            $headers['Return-Path']
-        );
-    }
-
-    public function testHeaderReturnPathEncoding(): void
-    {
-        $this->email->setReturnPath('test1@test.com', 'Тестовое задание');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
             $headers['Return-Path']
         );
     }
@@ -92,4 +30,64 @@ trait ReturnPathTestTrait
         );
     }
 
+    public function testHeaderReturnPathEncoding(): void
+    {
+        $this->email->setReturnPath('test1@test.com', 'Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
+            $headers['Return-Path']
+        );
+    }
+
+    public function testHeaderReturnPathName(): void
+    {
+        $this->email->setReturnPath('test1@test.com', 'Test');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            'Test <test1@test.com>',
+            $headers['Return-Path']
+        );
+    }
+
+    public function testSetReturnPath(): void
+    {
+        $this->assertSame(
+            $this->email,
+            $this->email->setReturnPath('test1@test.com')
+        );
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'test1@test.com',
+            ],
+            $this->email->getReturnPath()
+        );
+    }
+
+    public function testSetReturnPathInvalid(): void
+    {
+        $this->email->setReturnPath('test1');
+
+        $this->assertSame(
+            [],
+            $this->email->getReturnPath()
+        );
+    }
+
+    public function testSetReturnPathName(): void
+    {
+        $this->email->setReturnPath('test1@test.com', 'Test 1');
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'Test 1',
+            ],
+            $this->email->getReturnPath()
+        );
+    }
 }

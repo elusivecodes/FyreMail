@@ -6,9 +6,6 @@ use Fyre\Mail\Email;
 use Fyre\Mail\Exceptions\SmtpException;
 use Fyre\Mail\Mailer;
 
-use const STREAM_CLIENT_CONNECT;
-use const STREAM_CRYPTO_METHOD_TLS_CLIENT;
-
 use function array_key_first;
 use function base64_encode;
 use function fclose;
@@ -23,12 +20,14 @@ use function stream_socket_enable_crypto;
 use function strlen;
 use function substr;
 
+use const STREAM_CLIENT_CONNECT;
+use const STREAM_CRYPTO_METHOD_TLS_CLIENT;
+
 /**
  * SmtpMailer
  */
 class SmtpMailer extends Mailer
 {
-
     protected static array $defaults = [
         'host' => '127.0.0.1',
         'username' => null,
@@ -37,7 +36,7 @@ class SmtpMailer extends Mailer
         'auth' => false,
         'tls' => false,
         'dsn' => false,
-        'keepAlive' => false
+        'keepAlive' => false,
     ];
 
     protected $socket;
@@ -52,6 +51,7 @@ class SmtpMailer extends Mailer
 
     /**
      * Send an email.
+     *
      * @param Email $email The email to send.
      */
     public function send(Email $email): void
@@ -74,7 +74,7 @@ class SmtpMailer extends Mailer
 
         $recipients = $email->getRecipients();
 
-        foreach ($recipients AS $recipient => $name) {
+        foreach ($recipients as $recipient => $name) {
             $this->sendCommand('to', $recipient);
         }
 
@@ -92,6 +92,7 @@ class SmtpMailer extends Mailer
 
     /**
      * Authenticate the connection.
+     *
      * @throws SmtpException if the authentication failed.
      */
     protected function authenticate(): void
@@ -127,6 +128,7 @@ class SmtpMailer extends Mailer
 
     /**
      * Connect to the server.
+     *
      * @throws SmtpException if the connection could not be established.
      */
     protected function connect(): void
@@ -140,8 +142,8 @@ class SmtpMailer extends Mailer
             stream_context_create([
                 'ssl' => [
                     'verify_peer' => false,
-                    'verify_peer_name' => false
-                ]
+                    'verify_peer_name' => false,
+                ],
             ])
         );
 
@@ -182,6 +184,7 @@ class SmtpMailer extends Mailer
 
     /**
      * Read data from the socket.
+     *
      * @return string The data.
      */
     protected function getData(): string
@@ -196,8 +199,10 @@ class SmtpMailer extends Mailer
 
     /**
      * Send a command.
+     *
      * @param string $command The command.
      * @param string $data The data.
+     *
      * @throws SmtpException If the response was not valid.
      */
     protected function sendCommand(string $command, string $data = ''): void
@@ -262,7 +267,9 @@ class SmtpMailer extends Mailer
 
     /**
      * Send data to the socket.
+     *
      * @param string $data The data to send.
+     *
      * @throws SmtpException If the data could not be sent.
      */
     protected function sendData(string $data): void
@@ -278,5 +285,4 @@ class SmtpMailer extends Mailer
             $written += $result;
         }
     }
-
 }

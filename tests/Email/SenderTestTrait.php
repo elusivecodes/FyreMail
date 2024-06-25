@@ -5,44 +5,6 @@ namespace Tests\Email;
 
 trait SenderTestTrait
 {
-
-    public function testSetSender(): void
-    {
-        $this->assertSame(
-            $this->email,
-            $this->email->setSender('test1@test.com')
-        );
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'test1@test.com'
-            ],
-            $this->email->getSender()
-        );
-    }
-
-    public function testSetSenderName(): void
-    {
-        $this->email->setSender('test1@test.com', 'Test 1');
-
-        $this->assertSame(
-            [
-                'test1@test.com' => 'Test 1'
-            ],
-            $this->email->getSender()
-        );
-    }
-
-    public function testSetSenderInvalid(): void
-    {
-        $this->email->setSender('test1');
-
-        $this->assertSame(
-            [],
-            $this->email->getSender()
-        );
-    }
-
     public function testHeaderSender(): void
     {
         $this->email->setSender('test1@test.com');
@@ -51,30 +13,6 @@ trait SenderTestTrait
 
         $this->assertSame(
             'test1@test.com',
-            $headers['Sender']
-        );
-    }
-
-    public function testHeaderSenderName(): void
-    {
-        $this->email->setSender('test1@test.com', 'Test');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            'Test <test1@test.com>',
-            $headers['Sender']
-        );
-    }
-
-    public function testHeaderSenderEncoding(): void
-    {
-        $this->email->setSender('test1@test.com', 'Тестовое задание');
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
             $headers['Sender']
         );
     }
@@ -92,4 +30,64 @@ trait SenderTestTrait
         );
     }
 
+    public function testHeaderSenderEncoding(): void
+    {
+        $this->email->setSender('test1@test.com', 'Тестовое задание');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            '=?UTF-8?B?0KLQtdGB0YLQvtCy0L7QtSDQt9Cw0LTQsNC90LjQtQ==?= <test1@test.com>',
+            $headers['Sender']
+        );
+    }
+
+    public function testHeaderSenderName(): void
+    {
+        $this->email->setSender('test1@test.com', 'Test');
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            'Test <test1@test.com>',
+            $headers['Sender']
+        );
+    }
+
+    public function testSetSender(): void
+    {
+        $this->assertSame(
+            $this->email,
+            $this->email->setSender('test1@test.com')
+        );
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'test1@test.com',
+            ],
+            $this->email->getSender()
+        );
+    }
+
+    public function testSetSenderInvalid(): void
+    {
+        $this->email->setSender('test1');
+
+        $this->assertSame(
+            [],
+            $this->email->getSender()
+        );
+    }
+
+    public function testSetSenderName(): void
+    {
+        $this->email->setSender('test1@test.com', 'Test 1');
+
+        $this->assertSame(
+            [
+                'test1@test.com' => 'Test 1',
+            ],
+            $this->email->getSender()
+        );
+    }
 }

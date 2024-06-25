@@ -5,6 +5,17 @@ namespace Tests\Email;
 
 trait PriorityTestTrait
 {
+    public function testHeaderPriority(): void
+    {
+        $this->email->setPriority(1);
+
+        $headers = $this->email->getFullHeaders();
+
+        $this->assertSame(
+            1,
+            $headers['X-Priority']
+        );
+    }
 
     public function testSetPriority(): void
     {
@@ -27,17 +38,4 @@ trait PriorityTestTrait
             $this->email->getPriority()
         );
     }
-
-    public function testHeaderPriority(): void
-    {
-        $this->email->setPriority(1);
-
-        $headers = $this->email->getFullHeaders();
-
-        $this->assertSame(
-            1,
-            $headers['X-Priority']
-        );
-    }
-
 }
