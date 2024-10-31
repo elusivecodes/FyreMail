@@ -52,6 +52,8 @@ class Email
 
     public const TEXT = 'text';
 
+    protected string|null $appCharset = null;
+
     protected array $attachments = [];
 
     protected array $bcc = [];
@@ -97,7 +99,10 @@ class Email
     {
         $this->mailer = $mailer;
 
-        $this->charset = $this->mailer->getCharset();
+        $config = $mailer->getConfig();
+
+        $this->charset = $config['charset'];
+        $this->appCharset = $config['appCharset'];
     }
 
     /**
@@ -320,7 +325,7 @@ class Email
                 $lines[] = '';
             }
 
-            $content = static::prepareBody($this->body[static::TEXT] ?? '', $this->charset);
+            $content = static::prepareBody($this->body[static::TEXT] ?? '', $this->charset, $this->appCharset);
 
             $lines = array_merge($lines, $content);
             $lines[] = '';
@@ -335,7 +340,7 @@ class Email
                 $lines[] = '';
             }
 
-            $content = static::prepareBody($this->body[static::HTML] ?? '', $this->charset);
+            $content = static::prepareBody($this->body[static::HTML] ?? '', $this->charset, $this->appCharset);
 
             $lines = array_merge($lines, $content);
             $lines[] = '';
@@ -594,7 +599,7 @@ class Email
     /**
      * Set the BCC address.
      *
-     * @param string|array $emails The email addresses.
+     * @param array|string $emails The email addresses.
      * @return Email The Email.
      */
     public function setBcc(array|string $emails): static
@@ -644,7 +649,7 @@ class Email
     /**
      * Set the CC address.
      *
-     * @param string|array $emails The email addresses.
+     * @param array|string $emails The email addresses.
      * @return Email The Email.
      */
     public function setCc(array|string $emails): static
@@ -743,7 +748,7 @@ class Email
     /**
      * Set the reply to address.
      *
-     * @param string|array $emails The email addresses.
+     * @param array|string $emails The email addresses.
      * @return Email The Email.
      */
     public function setReplyTo(array|string $emails): static
@@ -797,7 +802,7 @@ class Email
     /**
      * Set the to addresses.
      *
-     * @param string|array $emails The email addresses.
+     * @param array|string $emails The email addresses.
      * @return Email The Email.
      */
     public function setTo(array|string $emails): static
@@ -923,7 +928,7 @@ class Email
     /**
      * Parse email addresses.
      *
-     * @param string|array $emails The email addresses.
+     * @param array|string $emails The email addresses.
      * @return array The parsed email addresses.
      */
     protected static function parseEmails(array|string $emails): array
@@ -955,13 +960,14 @@ class Email
      * Encode, wrap and split body text into lines.
      *
      * @param string $content The body content.
-     * @param string $charset The charset.
+     * @param string $toCharset The designed charset.
+     * @param string $fromCharset The current charset.
      * @return array The body text lines.
      */
-    protected static function prepareBody(string $content, string $charset): array
+    protected static function prepareBody(string $content, string $toCharset, string|null $fromCharset): array
     {
         $content = str_replace(["\r\n", "\r"], "\n", $content);
-        $content = static::encodeString($content, $charset, Mailer::getAppCharset());
+        $content = static::encodeString($content, $toCharset, $fromCharset);
         $content = static::wrap($content);
         $content = implode("\n", $content);
         $content = rtrim($content, "\n");

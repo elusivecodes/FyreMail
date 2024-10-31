@@ -5,11 +5,32 @@ namespace Tests;
 
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SendmailMailer;
-use Fyre\Mail\Mail;
+use Fyre\Mail\MailManager;
 use PHPUnit\Framework\TestCase;
 
-final class MailTest extends TestCase
+final class MailManagerTest extends TestCase
 {
+    protected MailManager $mail;
+
+    public function testBuild(): void
+    {
+        $this->assertInstanceOf(
+            SendmailMailer::class,
+            $this->mail->build([
+                'className' => SendmailMailer::class,
+            ])
+        );
+    }
+
+    public function testBuildInvalidHandler(): void
+    {
+        $this->expectException(MailException::class);
+
+        $this->mail->build([
+            'className' => 'Invalid',
+        ]);
+    }
+
     public function testGetConfig(): void
     {
         $this->assertSame(
@@ -21,7 +42,7 @@ final class MailTest extends TestCase
                     'className' => SendmailMailer::class,
                 ],
             ],
-            Mail::getConfig()
+            $this->mail->getConfig()
         );
     }
 
@@ -31,89 +52,49 @@ final class MailTest extends TestCase
             [
                 'className' => SendmailMailer::class,
             ],
-            Mail::getConfig('default')
-        );
-    }
-
-    public function testGetKey(): void
-    {
-        $handler = Mail::use();
-
-        $this->assertSame(
-            'default',
-            Mail::getKey($handler)
-        );
-    }
-
-    public function testGetKeyInvalid(): void
-    {
-        $handler = Mail::load([
-            'className' => SendmailMailer::class,
-        ]);
-
-        $this->assertSame(
-            null,
-            Mail::getKey($handler)
+            $this->mail->getConfig('default')
         );
     }
 
     public function testIsLoaded(): void
     {
-        Mail::use();
+        $this->mail->use();
 
         $this->assertTrue(
-            Mail::isLoaded()
+            $this->mail->isLoaded()
         );
     }
 
     public function testIsLoadedInvalid(): void
     {
         $this->assertFalse(
-            Mail::isLoaded('test')
+            $this->mail->isLoaded('test')
         );
     }
 
     public function testIsLoadedKey(): void
     {
-        Mail::use('other');
+        $this->mail->use('other');
 
         $this->assertTrue(
-            Mail::isLoaded('other')
+            $this->mail->isLoaded('other')
         );
-    }
-
-    public function testLoad(): void
-    {
-        $this->assertInstanceOf(
-            SendmailMailer::class,
-            Mail::load([
-                'className' => SendmailMailer::class,
-            ])
-        );
-    }
-
-    public function testLoadInvalidHandler(): void
-    {
-        $this->expectException(MailException::class);
-
-        Mail::load([
-            'className' => 'Invalid',
-        ]);
     }
 
     public function testSetConfig(): void
     {
-        Mail::setConfig([
-            'test' => [
+        $this->assertSame(
+            $this->mail,
+            $this->mail->setConfig('test', [
                 'className' => SendmailMailer::class,
-            ],
-        ]);
+            ])
+        );
 
         $this->assertSame(
             [
                 'className' => SendmailMailer::class,
             ],
-            Mail::getConfig('test')
+            $this->mail->getConfig('test')
         );
     }
 
@@ -121,54 +102,57 @@ final class MailTest extends TestCase
     {
         $this->expectException(MailException::class);
 
-        Mail::setConfig('default', [
+        $this->mail->setConfig('default', [
             'className' => SendmailMailer::class,
         ]);
     }
 
     public function testUnload(): void
     {
-        Mail::use();
+        $this->mail->use();
 
-        $this->assertTrue(
-            Mail::unload()
+        $this->assertSame(
+            $this->mail,
+            $this->mail->unload()
         );
 
         $this->assertFalse(
-            Mail::isLoaded()
+            $this->mail->isLoaded()
         );
         $this->assertFalse(
-            Mail::hasConfig()
+            $this->mail->hasConfig()
         );
     }
 
     public function testUnloadInvalid(): void
     {
-        $this->assertFalse(
-            Mail::unload('test')
+        $this->assertSame(
+            $this->mail,
+            $this->mail->unload('test')
         );
     }
 
     public function testUnloadKey(): void
     {
-        Mail::use('other');
+        $this->mail->use('other');
 
-        $this->assertTrue(
-            Mail::unload('other')
+        $this->assertSame(
+            $this->mail,
+            $this->mail->unload('other')
         );
 
         $this->assertFalse(
-            Mail::isLoaded('other')
+            $this->mail->isLoaded('other')
         );
         $this->assertFalse(
-            Mail::hasConfig('other')
+            $this->mail->hasConfig('other')
         );
     }
 
     public function testUse(): void
     {
-        $handler1 = Mail::use();
-        $handler2 = Mail::use();
+        $handler1 = $this->mail->use();
+        $handler2 = $this->mail->use();
 
         $this->assertSame($handler1, $handler2);
 
@@ -180,15 +164,13 @@ final class MailTest extends TestCase
 
     protected function setUp(): void
     {
-        Mail::clear();
-
-        Mail::setConfig([
+        $this->mail = new MailManager([
             'default' => [
                 'className' => SendmailMailer::class,
             ],
             'other' => [
                 'className' => SendmailMailer::class,
             ],
-        ]);
+        ], 'utf-8');
     }
 }

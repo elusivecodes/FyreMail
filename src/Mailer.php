@@ -14,34 +14,15 @@ use function php_uname;
  */
 abstract class Mailer
 {
-    protected static string|null $appCharset = null;
-
     protected static array $defaults = [
+        'appCharset' => null,
         'charset' => 'utf-8',
         'client' => null,
     ];
 
     protected array $config;
 
-    /**
-     * Get the app charset.
-     *
-     * @return string|null The app charset.
-     */
-    public static function getAppCharset(): string|null
-    {
-        return static::$appCharset;
-    }
-
-    /**
-     * Set the app charset.
-     *
-     * @param string|null $charset The charset.
-     */
-    public static function setAppCharset(string|null $charset = null): void
-    {
-        static::$appCharset = $charset;
-    }
+    protected MailManager $mailManager;
 
     /**
      * New Cacher constructor.
@@ -64,16 +45,6 @@ abstract class Mailer
     }
 
     /**
-     * Get the charset.
-     *
-     * @return string The charset.
-     */
-    public function getCharset(): string
-    {
-        return $this->config['charset'];
-    }
-
-    /**
      * Get the client hostname.
      *
      * @return string The client hostname.
@@ -93,6 +64,16 @@ abstract class Mailer
         }
 
         return php_uname('n');
+    }
+
+    /**
+     * Get the config.
+     *
+     * @return array The config.
+     */
+    public function getConfig(): array
+    {
+        return $this->config;
     }
 
     /**

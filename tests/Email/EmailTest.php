@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Email;
 
 use Fyre\Mail\Email;
-use Fyre\Mail\Mail;
+use Fyre\Mail\Handlers\SendmailMailer;
+use Fyre\Mail\MailManager;
 use PHPUnit\Framework\TestCase;
-use Tests\SendmailTrait;
 
 final class EmailTest extends TestCase
 {
@@ -25,7 +25,6 @@ final class EmailTest extends TestCase
     use ReplyToTestTrait;
     use ReturnPathTestTrait;
     use SenderTestTrait;
-    use SendmailTrait;
     use SubjectTestTrait;
     use ToTestTrait;
 
@@ -33,6 +32,8 @@ final class EmailTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->email = Mail::use()->email();
+        $this->email = (new MailManager([], 'utf-8'))->build([
+            'className' => SendmailMailer::class,
+        ])->email();
     }
 }

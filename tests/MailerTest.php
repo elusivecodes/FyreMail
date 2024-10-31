@@ -5,37 +5,25 @@ namespace Tests;
 
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SmtpMailer;
-use Fyre\Mail\Mail;
-use Fyre\Mail\Mailer;
+use Fyre\Mail\MailManager;
 use PHPUnit\Framework\TestCase;
 
 final class MailerTest extends TestCase
 {
-    use SMTPTrait;
+    protected MailManager $mailer;
 
     public function testFailedConnection(): void
     {
         $this->expectException(MailException::class);
 
-        Mail::use('invalid');
+        $this->mailer->use('invalid');
     }
 
     public function testGetAppCharset(): void
     {
         $this->assertSame(
             'utf-8',
-            Mailer::getAppCharset()
-        );
-    }
-
-    public function testGetCharset(): void
-    {
-        $this->assertSame(
-            'iso-8559-1',
-            Mail::load([
-                'charset' => 'iso-8559-1',
-                'className' => SmtpMailer::class,
-            ])->getCharset()
+            $this->mailer->getAppCharset()
         );
     }
 
@@ -43,10 +31,15 @@ final class MailerTest extends TestCase
     {
         $this->assertSame(
             'test',
-            Mail::load([
+            $this->mailer->build([
                 'client' => 'test',
                 'className' => SmtpMailer::class,
             ])->getClient()
         );
+    }
+
+    protected function setUp(): void
+    {
+        $this->mailer = new MailManager([], 'utf-8');
     }
 }

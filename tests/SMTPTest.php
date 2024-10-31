@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace Tests;
 
 use Fyre\Mail\Email;
-use Fyre\Mail\Mail;
+use Fyre\Mail\Handlers\SmtpMailer;
 use Fyre\Mail\Mailer;
+use Fyre\Mail\MailManager;
 use PHPUnit\Framework\TestCase;
 
 use function file_get_contents;
@@ -13,9 +14,7 @@ use function getenv;
 
 final class SMTPTest extends TestCase
 {
-    use SMTPTrait;
-
-    protected Mailer $mail;
+    protected static Mailer $mailer;
 
     /**
      * @doesNotPerformAssertions
@@ -29,7 +28,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = $this->mail->email()
+        $email = self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -49,7 +48,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = $this->mail->email()
+        $email = self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -74,7 +73,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = $this->mail->email()
+        $email = self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -99,7 +98,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = $this->mail->email()
+        $email = self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -126,7 +125,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = $this->mail->email()
+        $email = self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -135,8 +134,17 @@ final class SMTPTest extends TestCase
             ->send();
     }
 
-    protected function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        $this->mail = Mail::use();
+        self::$mailer = (new MailManager([], 'utf-8'))->build([
+            'className' => SmtpMailer::class,
+            'host' => getenv('SMTP_HOST'),
+            'port' => getenv('SMTP_PORT'),
+            'username' => getenv('SMTP_USERNAME'),
+            'password' => getenv('SMTP_PASSWORD'),
+            'auth' => getenv('SMTP_AUTH'),
+            'tls' => getenv('SMTP_TLS'),
+            'keepAlive' => true,
+        ]);
     }
 }

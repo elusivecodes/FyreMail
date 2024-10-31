@@ -5,6 +5,7 @@
 
 ## Table Of Contents
 - [Installation](#installation)
+- [Basic Usage](#basic-usage)
 - [Methods](#methods)
 - [Mailers](#mailers)
     - [Sendmail](#sendmail)
@@ -24,18 +25,46 @@ composer require fyre/mail
 In PHP:
 
 ```php
-use Fyre\Mail\Mail;
+use Fyre\Mail\MailManager;
+```
+
+
+## Basic Usage
+
+- `$config` is an array containing key/value of configuration options.
+- `$appCharset` is a string representing the application character set, and will default to *null*.
+
+```php
+$mailManager = new MailManager($config, $appCharset);
 ```
 
 
 ## Methods
+
+**Build**
+
+Build a [*Mailer*](#mailers).
+
+- `$options` is an array containing configuration options.
+
+```php
+$mailer = $mailManager->build($options);
+```
 
 **Clear**
 
 Clear all instances and configs.
 
 ```php
-Mail::clear();
+$mailManager->clear();
+```
+
+**Get App Charset**
+
+Get the application character set.
+
+```php
+$appCharset = $mailManager->getAppCharset();
 ```
 
 **Get Config**
@@ -45,53 +74,43 @@ Get a [*Mailer*](#mailers) config.
 - `$key` is a string representing the [*Mailer*](#mailers) key.
 
 ```php
-$config = Mail::getConfig($key);
+$config = $mailManager->getConfig($key);
 ```
 
 Alternatively, if the `$key` argument is omitted an array containing all configurations will be returned.
 
 ```php
-$config = Mail::getConfig();
-```
-
-**Get Key**
-
-Get the key for a [*Mailer*](#mailers) instance.
-
-- `$mailer` is a [*Mailer*](#mailers).
-
-```php
-$key = Mail::getKey($mailer);
+$config = $mailManager->getConfig();
 ```
 
 **Has Config**
 
 Check if a [*Mailer*](#mailers) config exists.
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
 ```php
-$hasConfig = Mail::hasConfig($key);
+$hasConfig = $mailManager->hasConfig($key);
 ```
 
 **Is Loaded**
 
 Check if a [*Mailer*](#mailers) instance is loaded.
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
 ```php
-$isLoaded = Mail::isLoaded($key);
+$isLoaded = $mailManager->isLoaded($key);
 ```
 
-**Load**
+**Set App Charset**
 
-Load a [*Mailer*](#mailers).
+Set the application character set.
 
-- `$options` is an array containing configuration options.
+- `$appCharset` is a string representing the application character set.
 
 ```php
-$mailer = Mail::load($options);
+$mailManager->setAppCharset($appCharset);
 ```
 
 **Set Config**
@@ -102,33 +121,27 @@ Set the [*Mailer*](#mailers) config.
 - `$options` is an array containing configuration options.
 
 ```php
-Mail::setConfig($key, $options);
-```
-
-Alternatively, a single array can be provided containing key/value of configuration options.
-
-```php
-Mail::setConfig($config);
+$mailManager->setConfig($key, $options);
 ```
 
 **Unload**
 
 Unload a [*Mailer*](#mailers).
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
 ```php
-$unloaded = Mail::unload($key);
+$unloaded = $mailManager->unload($key);
 ```
 
 **Use**
 
 Load a shared [*Mailer*](#mailers) instance.
 
-- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `Mail::DEFAULT`.
+- `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
 ```php
-$mailer = Mail::use($key);
+$mailer = $mailManager->use($key);
 ```
 
 
@@ -144,14 +157,6 @@ Create an [*Email*](#emails).
 
 ```php
 $email = $mailer->email();
-```
-
-**Get Charset**
-
-Get the mailer character set.
-
-```php
-$charset = $mailer->getCharset();
 ```
 
 **Get Client**
@@ -184,9 +189,7 @@ The Sendmail mailer can be loaded using custom configuration.
     - `client` is a string representing the client hostname.
 
 ```php
-Mail::setConfig($key, $options);
-
-$mailer = Mail::use($key);
+$mailer = $mailManager->build($options);
 ```
 
 
@@ -194,7 +197,6 @@ $mailer = Mail::use($key);
 
 The SMTP mailer can be loaded using custom configuration.
 
-- `$key` is a string representing the mailer key.
 - `$options` is an array containing configuration options.
     - `className` must be set to `\Fyre\Mail\Handlers\SmtpMailer`.
     - `host` is a string representing the SMTP host, and will default to "*127.0.0.1*".
@@ -209,9 +211,7 @@ The SMTP mailer can be loaded using custom configuration.
     - `client` is a string representing the client hostname.
 
 ```php
-Mail::setConfig($key, $options);
-
-$mailer = Mail::use($key);
+$mailer = $mailManager->build($options);
 ```
 
 
