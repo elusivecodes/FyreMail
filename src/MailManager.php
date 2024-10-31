@@ -23,9 +23,10 @@ class MailManager
     protected array $instances = [];
 
     /**
-     * New Cache constructor.
+     * New MailManager constructor.
      *
-     * @param array $config The Cache config.
+     * @param array $config The MailManager config.
+     * @param string|null $appCharset The application character set.
      */
     public function __construct(array $config = [], string|null $appCharset = null)
     {
@@ -93,7 +94,7 @@ class MailManager
     }
 
     /**
-     * Determine if a config exists.
+     * Determine whether a config exists.
      *
      * @param string $key The config key.
      * @return bool TRUE if the config exists, otherwise FALSE.
@@ -104,7 +105,7 @@ class MailManager
     }
 
     /**
-     * Determine if a handler is loaded.
+     * Determine whether a handler is loaded.
      *
      * @param string $key The config key.
      * @return bool TRUE if the handler is loaded, otherwise FALSE.

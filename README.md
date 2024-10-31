@@ -85,7 +85,7 @@ $config = $mailManager->getConfig();
 
 **Has Config**
 
-Check if a [*Mailer*](#mailers) config exists.
+Determine whether a [*Mailer*](#mailers) config exists.
 
 - `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
@@ -95,7 +95,7 @@ $hasConfig = $mailManager->hasConfig($key);
 
 **Is Loaded**
 
-Check if a [*Mailer*](#mailers) instance is loaded.
+Determine whether a [*Mailer*](#mailers) instance is loaded.
 
 - `$key` is a string representing the [*Mailer*](#mailers) key, and will default to `MailManager::DEFAULT`.
 
