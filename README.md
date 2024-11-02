@@ -31,12 +31,13 @@ use Fyre\Mail\MailManager;
 
 ## Basic Usage
 
-- `$config` is an array containing key/value of configuration options.
-- `$appCharset` is a string representing the application character set, and will default to *null*.
+- `$container` is a  [*Container*](https://github.com/elusivecodes/FyreContainer).
 
 ```php
-$mailManager = new MailManager($config, $appCharset);
+$mailManager = new MailManager($container);
 ```
+
+Default configuration options will be resolved from the "*Mail*" key in the [*Config*](https://github.com/elusivecodes/FyreConfig) using the [*Container*](https://github.com/elusivecodes/FyreContainer).
 
 
 ## Methods
@@ -51,20 +52,14 @@ Build a [*Mailer*](#mailers).
 $mailer = $mailManager->build($options);
 ```
 
+[*Mailer*](#mailers) dependencies will be resolved automatically from the [*Container*](https://github.com/elusivecodes/FyreContainer).
+
 **Clear**
 
 Clear all instances and configs.
 
 ```php
 $mailManager->clear();
-```
-
-**Get App Charset**
-
-Get the application character set.
-
-```php
-$appCharset = $mailManager->getAppCharset();
 ```
 
 **Get Config**
@@ -103,16 +98,6 @@ Determine whether a [*Mailer*](#mailers) instance is loaded.
 $isLoaded = $mailManager->isLoaded($key);
 ```
 
-**Set App Charset**
-
-Set the application character set.
-
-- `$appCharset` is a string representing the application character set.
-
-```php
-$mailManager->setAppCharset($appCharset);
-```
-
 **Set Config**
 
 Set the [*Mailer*](#mailers) config.
@@ -143,6 +128,8 @@ Load a shared [*Mailer*](#mailers) instance.
 ```php
 $mailer = $mailManager->use($key);
 ```
+
+[*Mailer*](#mailers) dependencies will be resolved automatically from the [*Container*](https://github.com/elusivecodes/FyreContainer).
 
 
 ## Mailers

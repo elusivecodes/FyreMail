@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Email;
 
+use Fyre\Container\Container;
 use Fyre\Mail\Email;
 use Fyre\Mail\Handlers\SendmailMailer;
 use Fyre\Mail\MailManager;
@@ -32,8 +33,11 @@ final class EmailTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->email = (new MailManager([], 'utf-8'))->build([
-            'className' => SendmailMailer::class,
-        ])->email();
+        $this->email = Container::getInstance()
+            ->use(MailManager::class)
+            ->build([
+                'className' => SendmailMailer::class,
+            ])
+            ->email();
     }
 }

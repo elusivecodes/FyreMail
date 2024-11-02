@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Fyre\Mail;
 
+use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
 
 use function array_key_exists;
@@ -15,22 +16,23 @@ use function php_uname;
 abstract class Mailer
 {
     protected static array $defaults = [
-        'appCharset' => null,
         'charset' => 'utf-8',
         'client' => null,
     ];
 
     protected array $config;
 
-    protected MailManager $mailManager;
+    protected Container $container;
 
     /**
      * New Cacher constructor.
      *
+     * @param Container $container The Container.
      * @param array $options Options for the handler.
      */
-    public function __construct(array $options = [])
+    public function __construct(Container $container, array $options = [])
     {
+        $this->container = $container;
         $this->config = array_replace(self::$defaults, static::$defaults, $options);
     }
 
@@ -41,7 +43,7 @@ abstract class Mailer
      */
     public function email(): Email
     {
-        return new Email($this);
+        return $this->container->build(Email::class, ['mailer' => $this]);
     }
 
     /**

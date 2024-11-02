@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Fyre\Mail;
 
+use Fyre\Config\Config;
+use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
 
 use function array_key_exists;
@@ -16,23 +18,25 @@ class MailManager
 {
     public const DEFAULT = 'default';
 
-    protected string|null $appCharset = null;
-
     protected array $config = [];
+
+    protected Container $container;
 
     protected array $instances = [];
 
     /**
      * New MailManager constructor.
      *
-     * @param array $config The MailManager config.
-     * @param string|null $appCharset The application character set.
+     * @param Container $container The Container.
+     * @param Config $config The Config.
      */
-    public function __construct(array $config = [], string|null $appCharset = null)
+    public function __construct(Container $container, Config $config)
     {
-        $this->appCharset = $appCharset;
+        $this->container = $container;
 
-        foreach ($config as $key => $options) {
+        $handlers = $config->get('Mail', []);
+
+        foreach ($handlers as $key => $options) {
             $this->setConfig($key, $options);
         }
     }
@@ -55,9 +59,7 @@ class MailManager
             throw MailException::forInvalidClass($options['className']);
         }
 
-        $options['appCharset'] ??= $this->appCharset;
-
-        return new $options['className']($options);
+        return $this->container->build($options['className'], ['options' => $options]);
     }
 
     /**
@@ -67,16 +69,6 @@ class MailManager
     {
         $this->config = [];
         $this->instances = [];
-    }
-
-    /**
-     * Get the application character set.
-     *
-     * @return string|null The application character set.
-     */
-    public function getAppCharset(): string|null
-    {
-        return $this->appCharset;
     }
 
     /**
@@ -113,19 +105,6 @@ class MailManager
     public function isLoaded(string $key = self::DEFAULT): bool
     {
         return array_key_exists($key, $this->instances);
-    }
-
-    /**
-     * Set the application character set.
-     *
-     * @param string|null $appCharset The application character set.
-     * @return static The MailManager.
-     */
-    public function setAppCharset(string|null $appCharset): static
-    {
-        $this->appCharset = $appCharset;
-
-        return $this;
     }
 
     /**

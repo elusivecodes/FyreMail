@@ -3,6 +3,7 @@
 namespace Fyre\Mail;
 
 use finfo;
+use Fyre\Config\Config;
 use Fyre\Mail\Exceptions\MailException;
 
 use function addcslashes;
@@ -93,16 +94,15 @@ class Email
     /**
      * New Email constructor.
      *
-     * @param Mailer $mailer The mailer.
+     * @param Mailer $mailer The Mailer.
+     * @param Config $config The Config.
      */
-    public function __construct(Mailer $mailer)
+    public function __construct(Mailer $mailer, Config $config)
     {
         $this->mailer = $mailer;
 
-        $config = $mailer->getConfig();
-
-        $this->charset = $config['charset'];
-        $this->appCharset = $config['appCharset'];
+        $this->charset = $mailer->getConfig()['charset'] ?? 'utf-8';
+        $this->appCharset = $config->get('App.charset');
     }
 
     /**

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Config\Config;
+use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SendmailMailer;
 use Fyre\Mail\MailManager;
@@ -164,13 +166,16 @@ final class MailManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mail = new MailManager([
+        $container = new Container();
+        $container->singleton(Config::class);
+        $container->use(Config::class)->set('Mail', [
             'default' => [
                 'className' => SendmailMailer::class,
             ],
             'other' => [
                 'className' => SendmailMailer::class,
             ],
-        ], 'utf-8');
+        ]);
+        $this->mail = $container->use(MailManager::class);
     }
 }

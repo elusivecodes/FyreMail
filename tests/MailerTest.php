@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SmtpMailer;
 use Fyre\Mail\MailManager;
@@ -19,14 +20,6 @@ final class MailerTest extends TestCase
         $this->mailer->use('invalid');
     }
 
-    public function testGetAppCharset(): void
-    {
-        $this->assertSame(
-            'utf-8',
-            $this->mailer->getAppCharset()
-        );
-    }
-
     public function testGetClient(): void
     {
         $this->assertSame(
@@ -40,6 +33,7 @@ final class MailerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mailer = new MailManager([], 'utf-8');
+        $this->mailer = Container::getInstance()
+            ->use(MailManager::class);
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Container\Container;
 use Fyre\Mail\Email;
 use Fyre\Mail\Handlers\SmtpMailer;
 use Fyre\Mail\Mailer;
@@ -136,15 +137,17 @@ final class SMTPTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$mailer = (new MailManager([], 'utf-8'))->build([
-            'className' => SmtpMailer::class,
-            'host' => getenv('SMTP_HOST'),
-            'port' => getenv('SMTP_PORT'),
-            'username' => getenv('SMTP_USERNAME'),
-            'password' => getenv('SMTP_PASSWORD'),
-            'auth' => getenv('SMTP_AUTH'),
-            'tls' => getenv('SMTP_TLS'),
-            'keepAlive' => true,
-        ]);
+        self::$mailer = Container::getInstance()
+            ->use(MailManager::class)
+            ->build([
+                'className' => SmtpMailer::class,
+                'host' => getenv('SMTP_HOST'),
+                'port' => getenv('SMTP_PORT'),
+                'username' => getenv('SMTP_USERNAME'),
+                'password' => getenv('SMTP_PASSWORD'),
+                'auth' => getenv('SMTP_AUTH'),
+                'tls' => getenv('SMTP_TLS'),
+                'keepAlive' => true,
+            ]);
     }
 }
