@@ -30,11 +30,6 @@ class MailException extends RuntimeException
         return new static('Mail handler class not found: '.$className);
     }
 
-    public static function forInvalidConfig(string $key): static
-    {
-        return new static('Mail handler invalid config: '.$key);
-    }
-
     public static function forInvalidFormat(string $format = ''): static
     {
         return new static('Invalid email format: '.$format);
