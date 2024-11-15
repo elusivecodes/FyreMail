@@ -191,7 +191,7 @@ The Sendmail mailer can be loaded using custom configuration.
     - `client` is a string representing the client hostname.
 
 ```php
-$mailer = $mailManager->build($options);
+$container->use(Config::class)->set('Mail.sendmail', $options);
 ```
 
 
@@ -213,7 +213,7 @@ The SMTP mailer can be loaded using custom configuration.
     - `client` is a string representing the client hostname.
 
 ```php
-$mailer = $mailManager->build($options);
+$container->use(Config::class)->set('Mail.smtp', $options);
 ```
 
 
