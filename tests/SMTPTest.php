@@ -17,11 +17,10 @@ final class SMTPTest extends TestCase
 {
     protected static Mailer $mailer;
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testMailSend(): void
     {
+        $this->expectNotToPerformAssertions();
+
         $mailTo = getenv('MAIL_TO');
         $mailFrom = getenv('MAIL_FROM');
 
@@ -37,11 +36,10 @@ final class SMTPTest extends TestCase
             ->send();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testMailSendAttachment(): void
     {
+        $this->expectNotToPerformAssertions();
+
         $mailTo = getenv('MAIL_TO');
         $mailFrom = getenv('MAIL_FROM');
 
@@ -62,11 +60,10 @@ final class SMTPTest extends TestCase
             ->send();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testMailSendAttachmentContent(): void
     {
+        $this->expectNotToPerformAssertions();
+
         $mailTo = getenv('MAIL_TO');
         $mailFrom = getenv('MAIL_FROM');
 
@@ -87,11 +84,10 @@ final class SMTPTest extends TestCase
             ->send();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testMailSendAttachmentInline(): void
     {
+        $this->expectNotToPerformAssertions();
+
         $mailTo = getenv('MAIL_TO');
         $mailFrom = getenv('MAIL_FROM');
 
@@ -114,11 +110,10 @@ final class SMTPTest extends TestCase
             ->send();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function testMailSendHtml(): void
     {
+        $this->expectNotToPerformAssertions();
+
         $mailTo = getenv('MAIL_TO');
         $mailFrom = getenv('MAIL_FROM');
 
