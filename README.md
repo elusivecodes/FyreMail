@@ -8,6 +8,7 @@
 - [Basic Usage](#basic-usage)
 - [Methods](#methods)
 - [Mailers](#mailers)
+    - [Debug](#debug)
     - [Sendmail](#sendmail)
     - [SMTP](#smtp)
 - [Emails](#emails)
@@ -177,6 +178,37 @@ Send an [*Email*](#emails).
 
 ```php
 $mailer->send($email);
+```
+
+
+## Debug
+
+The Debug mailer can be loaded using custom configuration.
+
+- `$key` is a string representing the mailer key.
+- `$options` is an array containing configuration options.
+    - `className` must be set to `\Fyre\Mail\Handlers\DebugMailer`.
+    - `charset` is a string representing the character set, and will default to "*utf-8*".
+    - `client` is a string representing the client hostname.
+
+```php
+$container->use(Config::class)->set('Mail.debug', $options);
+```
+
+**Clear**
+
+Clear the sent emails.
+
+```php
+$mailer->clear();
+```
+
+**Get Sent Emails**
+
+Get the sent emails.
+
+```php
+$sentEmails = $mailer->getSentEmails();
 ```
 
 

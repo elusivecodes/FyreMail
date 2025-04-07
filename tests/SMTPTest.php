@@ -28,7 +28,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = self::$mailer->email()
+        self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -47,7 +47,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = self::$mailer->email()
+        self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -71,7 +71,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = self::$mailer->email()
+        self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -95,7 +95,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = self::$mailer->email()
+        self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
@@ -121,7 +121,7 @@ final class SMTPTest extends TestCase
             return;
         }
 
-        $email = self::$mailer->email()
+        self::$mailer->email()
             ->setTo($mailTo)
             ->setFrom($mailFrom)
             ->setSubject('Test')
