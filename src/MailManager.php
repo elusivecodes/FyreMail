@@ -149,6 +149,6 @@ class MailManager
      */
     public function use(string $key = self::DEFAULT): Mailer
     {
-        return $this->instances[$key] ??= static::build($this->config[$key] ?? []);
+        return $this->instances[$key] ??= $this->build($this->config[$key] ?? []);
     }
 }
