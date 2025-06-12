@@ -22,17 +22,16 @@ abstract class Mailer
 
     protected array $config;
 
-    protected Container $container;
-
     /**
      * New Cacher constructor.
      *
      * @param Container $container The Container.
      * @param array $options Options for the handler.
      */
-    public function __construct(Container $container, array $options = [])
-    {
-        $this->container = $container;
+    public function __construct(
+        protected Container $container,
+        array $options = []
+    ) {
         $this->config = array_replace(self::$defaults, static::$defaults, $options);
     }
 

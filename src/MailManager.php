@@ -20,8 +20,6 @@ class MailManager
 
     protected array $config = [];
 
-    protected Container $container;
-
     protected array $instances = [];
 
     /**
@@ -30,10 +28,10 @@ class MailManager
      * @param Container $container The Container.
      * @param Config $config The Config.
      */
-    public function __construct(Container $container, Config $config)
-    {
-        $this->container = $container;
-
+    public function __construct(
+        protected Container $container,
+        Config $config
+    ) {
         $handlers = $config->get('Mail', []);
 
         foreach ($handlers as $key => $options) {

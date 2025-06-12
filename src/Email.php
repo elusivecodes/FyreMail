@@ -73,8 +73,6 @@ class Email
 
     protected array $headers = [];
 
-    protected Mailer $mailer;
-
     protected string $messageId;
 
     protected int|null $priority = null;
@@ -97,10 +95,10 @@ class Email
      * @param Mailer $mailer The Mailer.
      * @param Config $config The Config.
      */
-    public function __construct(Mailer $mailer, Config $config)
-    {
-        $this->mailer = $mailer;
-
+    public function __construct(
+        protected Mailer $mailer,
+        Config $config
+    ) {
         $this->charset = $mailer->getConfig()['charset'] ?? 'utf-8';
         $this->appCharset = $config->get('App.charset');
     }
