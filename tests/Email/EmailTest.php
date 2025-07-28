@@ -7,7 +7,10 @@ use Fyre\Container\Container;
 use Fyre\Mail\Email;
 use Fyre\Mail\Handlers\SendmailMailer;
 use Fyre\Mail\MailManager;
+use Fyre\Utility\Traits\MacroTrait;
 use PHPUnit\Framework\TestCase;
+
+use function class_uses;
 
 final class EmailTest extends TestCase
 {
@@ -30,6 +33,14 @@ final class EmailTest extends TestCase
     use ToTestTrait;
 
     protected Email $email;
+
+    public function testMacroable(): void
+    {
+        $this->assertContains(
+            MacroTrait::class,
+            class_uses(Email::class)
+        );
+    }
 
     protected function setUp(): void
     {

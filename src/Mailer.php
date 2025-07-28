@@ -5,6 +5,7 @@ namespace Fyre\Mail;
 
 use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
+use Fyre\Utility\Traits\MacroTrait;
 
 use function array_key_exists;
 use function array_replace;
@@ -15,6 +16,8 @@ use function php_uname;
  */
 abstract class Mailer
 {
+    use MacroTrait;
+
     protected static array $defaults = [
         'charset' => 'utf-8',
         'client' => null,

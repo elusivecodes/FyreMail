@@ -5,6 +5,7 @@ namespace Fyre\Mail;
 use finfo;
 use Fyre\Config\Config;
 use Fyre\Mail\Exceptions\MailException;
+use Fyre\Utility\Traits\MacroTrait;
 
 use function addcslashes;
 use function array_column;
@@ -47,6 +48,8 @@ use const PREG_SPLIT_NO_EMPTY;
  */
 class Email
 {
+    use MacroTrait;
+
     public const BOTH = 'both';
 
     public const HTML = 'html';
