@@ -8,7 +8,10 @@ use Fyre\Container\Container;
 use Fyre\Mail\Exceptions\MailException;
 use Fyre\Mail\Handlers\SendmailMailer;
 use Fyre\Mail\MailManager;
+use Fyre\Utility\Traits\MacroTrait;
 use PHPUnit\Framework\TestCase;
+
+use function class_uses;
 
 final class MailManagerTest extends TestCase
 {
@@ -80,6 +83,14 @@ final class MailManagerTest extends TestCase
 
         $this->assertTrue(
             $this->mail->isLoaded('other')
+        );
+    }
+
+    public function testMacroable(): void
+    {
+        $this->assertContains(
+            MacroTrait::class,
+            class_uses(MailManager::class)
         );
     }
 
