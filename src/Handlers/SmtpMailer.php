@@ -11,6 +11,7 @@ use function base64_encode;
 use function fclose;
 use function fgets;
 use function fwrite;
+use function get_object_vars;
 use function preg_replace;
 use function str_starts_with;
 use function stream_context_create;
@@ -42,9 +43,39 @@ class SmtpMailer extends Mailer
     protected $socket;
 
     /**
-     * SmtpMailer wakeup.
+     * SmtpMailer destructor.
      */
-    public function __wakeup(): void
+    public function __destruct()
+    {
+        if ($this->socket) {
+            $this->sendCommand('quit');
+        }
+    }
+
+    /**
+     * Get the debug info of the object.
+     *
+     * @return array The debug info.
+     */
+    public function __debugInfo(): array
+    {
+        $data = get_object_vars($this);
+
+        foreach (['host', 'username', 'password', 'port'] as $key) {
+            if (!array_key_exists($key, $data['config']) || !$data['config'][$key]) {
+                continue;
+            }
+
+            $data['config'][$key] = '*****';
+        }
+
+        return $data;
+    }
+
+    /**
+     * SmtpMailer wake up.
+     */
+    public function __wakeup()
     {
         $this->socket = null;
     }

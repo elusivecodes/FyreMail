@@ -13,9 +13,41 @@ use PHPUnit\Framework\TestCase;
 use function file_get_contents;
 use function getenv;
 
-final class SMTPTest extends TestCase
+final class SmtpTest extends TestCase
 {
     protected static Mailer $mailer;
+
+    public function testDebug(): void
+    {
+        $data = self::$mailer->__debugInfo();
+
+        $this->assertInstanceOf(
+            Container::class,
+            $data['container']
+        );
+
+        unset($data['container']);
+        unset($data['socket']);
+
+        $this->assertSame(
+            [
+                'config' => [
+                    'charset' => 'utf-8',
+                    'client' => null,
+                    'host' => '*****',
+                    'username' => '*****',
+                    'password' => '*****',
+                    'port' => '*****',
+                    'auth' => '1',
+                    'tls' => '1',
+                    'dsn' => false,
+                    'keepAlive' => true,
+                    'className' => SmtpMailer::class,
+                ],
+            ],
+            $data
+        );
+    }
 
     public function testMailSend(): void
     {
