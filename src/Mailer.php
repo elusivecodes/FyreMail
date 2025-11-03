@@ -9,6 +9,7 @@ use Fyre\Utility\Traits\MacroTrait;
 
 use function array_key_exists;
 use function array_replace;
+use function get_object_vars;
 use function php_uname;
 
 /**
@@ -36,6 +37,20 @@ abstract class Mailer
         array $options = []
     ) {
         $this->config = array_replace(self::$defaults, static::$defaults, $options);
+    }
+
+    /**
+     * Get the debug info of the object.
+     *
+     * @return array The debug info.
+     */
+    public function __debugInfo(): array
+    {
+        $data = get_object_vars($this);
+
+        unset($data['container']);
+
+        return $data;
     }
 
     /**

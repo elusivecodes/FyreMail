@@ -5,13 +5,13 @@ namespace Fyre\Mail\Handlers;
 use Fyre\Mail\Email;
 use Fyre\Mail\Exceptions\SmtpException;
 use Fyre\Mail\Mailer;
+use Override;
 
 use function array_key_first;
 use function base64_encode;
 use function fclose;
 use function fgets;
 use function fwrite;
-use function get_object_vars;
 use function preg_replace;
 use function str_starts_with;
 use function stream_context_create;
@@ -57,9 +57,10 @@ class SmtpMailer extends Mailer
      *
      * @return array The debug info.
      */
+    #[Override]
     public function __debugInfo(): array
     {
-        $data = get_object_vars($this);
+        $data = parent::__debugInfo();
 
         foreach (['host', 'username', 'password', 'port'] as $key) {
             if (!array_key_exists($key, $data['config']) || !$data['config'][$key]) {
@@ -68,6 +69,8 @@ class SmtpMailer extends Mailer
 
             $data['config'][$key] = '*****';
         }
+
+        unset($data['socket']);
 
         return $data;
     }
@@ -85,6 +88,7 @@ class SmtpMailer extends Mailer
      *
      * @param Email $email The email to send.
      */
+    #[Override]
     public function send(Email $email): void
     {
         static::checkEmail($email);

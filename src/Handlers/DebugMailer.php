@@ -4,6 +4,7 @@ namespace Fyre\Mail\Handlers;
 
 use Fyre\Mail\Email;
 use Fyre\Mail\Mailer;
+use Override;
 
 /**
  * DebugMailer
@@ -35,6 +36,7 @@ class DebugMailer extends Mailer
      *
      * @param Email $email The email to send.
      */
+    #[Override]
     public function send(Email $email): void
     {
         static::checkEmail($email);

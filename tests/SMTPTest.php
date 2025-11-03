@@ -21,14 +21,6 @@ final class SmtpTest extends TestCase
     {
         $data = self::$mailer->__debugInfo();
 
-        $this->assertInstanceOf(
-            Container::class,
-            $data['container']
-        );
-
-        unset($data['container']);
-        unset($data['socket']);
-
         $this->assertSame(
             [
                 'config' => [

@@ -16,6 +16,23 @@ final class DebugTest extends TestCase
 {
     protected Mailer $mailer;
 
+    public function testDebug(): void
+    {
+        $data = $this->mailer->__debugInfo();
+
+        $this->assertSame(
+            [
+                'config' => [
+                    'charset' => 'utf-8',
+                    'client' => null,
+                    'className' => DebugMailer::class,
+                ],
+                'sentEmails' => [],
+            ],
+            $data
+        );
+    }
+
     public function testMailSend(): void
     {
         $this->mailer->email()
